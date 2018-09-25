@@ -128,6 +128,7 @@ add_library(${PROJECT_NAME}
     src/TF_SISO/TF_SISO.cpp
     src/TF_SISO/TF_FIRST_ORDER_FILTER.cpp
     src/TF_MIMO/TF_MIMO.cpp
+    src/TF_MIMO/TF_MIMO_DIAGONAL.cpp
 )
 
 ## Add cmake target dependencies of the library
