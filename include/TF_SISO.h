@@ -28,8 +28,8 @@ private:
 
 protected:
 
-    const unsigned int _n;
-    const unsigned int _m;
+    unsigned int _n;
+    unsigned int _m;
 
     TooN::Vector<> _b_vect; //n+1
     TooN::Vector<> _a_vect; //m
@@ -79,7 +79,7 @@ public:
 /*==============================================*/
 
 /*=============VARIE===========================*/
-    void reset();
+    virtual void reset();
     virtual void display();
 /*==============================================*/
 
