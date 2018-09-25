@@ -105,6 +105,10 @@ TF_SISO::TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect): TF_SISO(b_vect, 
         return _y_k;
     
     }
+
+    Vector<> TF_SISO::apply( Vector<> input ){
+        return makeVector( apply( input[0] ) );
+    }
 /*==============================================*/
 
 /*=============VARIE===========================*/
