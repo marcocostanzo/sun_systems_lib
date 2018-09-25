@@ -37,6 +37,8 @@ class TF_MIMO : public Linear_System {
     virtual ~TF_MIMO();
     TF_MIMO(int dim_input, int dim_output, std::vector<TF_SISO> siso_matrix_vect, double Ts);
     TF_MIMO(int dim_input, int dim_output, std::vector<TF_SISO> siso_matrix_vect);
+    TF_MIMO(int dim_input, int dim_output, double Ts);
+    TF_MIMO(int dim_input, int dim_output);
     TF_MIMO(int dim_input, std::vector<TF_SISO> siso_matrix_vect, double Ts);
     TF_MIMO(int dim_input, std::vector<TF_SISO> siso_matrix_vect);
     /*==============================================*/
@@ -56,6 +58,9 @@ class TF_MIMO : public Linear_System {
     /*=============VARIE===========================*/
     virtual void reset();
     virtual void display();
+    /*==============================================*/
+    /*=============OPERATORS================*/
+    virtual TF_SISO& operator()(int row, int col);
     /*==============================================*/
 
 
