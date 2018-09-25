@@ -86,10 +86,6 @@ public:
 
 /*=============STATIC FUNS===========================*/
 
-TF_SISO TF_FIRST_ORDER_FILTER(double cut_freq, double Ts);
-
-void TF_FIRST_ORDER_FILTER_SET_STATE( TF_SISO* tf, double output );
-
 /*==============================================*/
 
 #endif
