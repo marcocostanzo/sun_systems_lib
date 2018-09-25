@@ -26,8 +26,6 @@
 class TF_SISO : public Linear_System {
 private:
 
-	TF_SISO(); //NO DEFAULT CONSTRUCTOR
-
 protected:
 
     const unsigned int _n;
@@ -44,6 +42,10 @@ public:
 /*===============CONSTRUCTORS===================*/
     TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect, double Ts);
 	TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect);
+
+    //TF_SISO_ZERO Constructors
+    TF_SISO(double Ts);
+    TF_SISO();
 
 	//TF_SISO(const TF_SISO& tf);
 /*==============================================*/

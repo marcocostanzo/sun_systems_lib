@@ -40,7 +40,13 @@ TF_SISO::TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect, double Ts):
     reset();
 }
 
-TF_SISO::TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect): TF_SISO(b_vect, a_vect, -1){}
+TF_SISO::TF_SISO(TooN::Vector<> b_vect, TooN::Vector<> a_vect): TF_SISO(b_vect, a_vect, -1.0){}
+
+TF_SISO::TF_SISO(double Ts):
+    TF_SISO( makeVector(0.0), makeVector(0.0), Ts){};
+
+TF_SISO::TF_SISO():
+    TF_SISO(-1.0){};
 
 
 //TF_SISO(const TF_SISO& tf);
