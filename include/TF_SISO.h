@@ -74,7 +74,7 @@ public:
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-	double apply( double uk);
+	virtual double apply( double uk);
     TooN::Vector<> apply( TooN::Vector<> input );
 /*==============================================*/
 

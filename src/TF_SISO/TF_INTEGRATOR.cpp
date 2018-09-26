@@ -21,11 +21,16 @@
 #include "TF_INTEGTATOR.h"
 
 /*===============CONSTRUCTORS===================*/
-    TF_INTEGRATOR::TF_INTEGRATOR(double Ts) : 
+
+    TF_INTEGRATOR::TF_INTEGRATOR(double Ts, double gain):
         TF_SISO( 
                 (Ts/2.0) * TooN::makeVector( 1.0 , 1.0 ),
                 TooN::makeVector( 1.0 ),
-                Ts) {};
+                Ts),
+        _gain(gain){}
+
+    TF_INTEGRATOR::TF_INTEGRATOR(double Ts) : 
+        TF_INTEGRATOR(Ts, 1.0){};
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	
@@ -37,6 +42,7 @@
 
 /*=============SETTER===========================*/
     void TF_INTEGRATOR::setState(double output){
+        output = output/_gain;
         setU_vect( TooN::makeVector( 0.0, 0.0 ) );
 	    setY_vect( TooN::makeVector( output ) );
 	    setYk(output);
@@ -47,6 +53,9 @@
 /*========================================================*/
 
 /*=============RUNNER===========================*/
+    double TF_INTEGRATOR::apply( double uk){
+        return gain_*TF_SISO::apply( uk );
+    }
 /*==============================================*/
 
 /*=============VARIE===========================*/
