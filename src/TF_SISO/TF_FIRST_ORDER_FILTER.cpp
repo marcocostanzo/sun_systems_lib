@@ -23,9 +23,14 @@
 using namespace TooN;
 
 /*===============CONSTRUCTORS===================*/
-    TF_FIRST_ORDER_FILTER::TF_FIRST_ORDER_FILTER(double cut_freq, double Ts) : 
+
+    TF_FIRST_ORDER_FILTER::TF_FIRST_ORDER_FILTER(double cut_freq, double Ts, double gain):
         TF_SISO(    tf_first_order_get_b_vect(cut_freq, Ts), 
-                    tf_first_order_get_a_vect(cut_freq, Ts) ){};
+                    tf_first_order_get_a_vect(cut_freq, Ts) ),
+        _gain(gain){}
+
+    TF_FIRST_ORDER_FILTER::TF_FIRST_ORDER_FILTER(double cut_freq, double Ts) : 
+        TF_FIRST_ORDER_FILTER(cut_freq, Ts, 1.0){};
 
 	//TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf);
 /*==============================================*/
@@ -51,6 +56,7 @@ using namespace TooN;
 
 /*=============SETTER===========================*/
     void TF_FIRST_ORDER_FILTER::setState(double output){
+        output = output/_gain;
         setU_vect( TooN::makeVector( output, output ) );
 	    setY_vect( TooN::makeVector( output ) );
 	    setYk(output);
@@ -61,6 +67,9 @@ using namespace TooN;
 /*========================================================*/
 
 /*=============RUNNER===========================*/
+    double TF_FIRST_ORDER_FILTER::apply( double uk){
+        return _gain*TF_SISO::apply( uk );
+    }
 /*==============================================*/
 
 /*=============VARIE===========================*/

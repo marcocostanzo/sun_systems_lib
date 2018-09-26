@@ -30,9 +30,12 @@ private:
 
 protected:
 
+    double _gain;
+
 public:
 /*===============CONSTRUCTORS===================*/
     TF_FIRST_ORDER_FILTER(double cut_freq, double Ts);
+    TF_FIRST_ORDER_FILTER(double cut_freq, double Ts, double gain);
 
 	//TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf);
 /*==============================================*/
@@ -56,6 +59,7 @@ public:
 /*========================================================*/
 
 /*=============RUNNER===========================*/
+    virtual double apply( double uk);
 /*==============================================*/
 
 /*=============VARIE===========================*/
