@@ -54,7 +54,7 @@
 
 /*=============RUNNER===========================*/
     double TF_INTEGRATOR::apply( double uk){
-        return gain_*TF_SISO::apply( uk );
+        return _gain*TF_SISO::apply( uk );
     }
 /*==============================================*/
 
