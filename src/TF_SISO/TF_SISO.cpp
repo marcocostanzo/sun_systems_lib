@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TF_SISO.h"
+#include "TF_SISO/TF_SISO.h"
 
 using namespace TooN;
 using namespace std;

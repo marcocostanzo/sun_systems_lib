@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TF_FIRST_ORDER_FILTER.h"
+#include "TF_SISO/TF_FIRST_ORDER_FILTER.h"
 
 using namespace TooN;
 

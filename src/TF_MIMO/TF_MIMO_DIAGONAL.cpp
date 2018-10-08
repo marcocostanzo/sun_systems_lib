@@ -18,7 +18,7 @@
 */
 
 
-#include "TF_MIMO_DIAGONAL.h"
+#include "TF_MIMO/TF_MIMO_DIAGONAL.h"
 
 using namespace std;
 using namespace TooN;

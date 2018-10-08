@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SS_System.h"
+#include "SS_System/SS_System.h"
 
 using namespace TooN;
 using namespace std;

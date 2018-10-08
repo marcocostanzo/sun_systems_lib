@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TF_INTEGTATOR.h"
+#include "TF_SISO/TF_INTEGTATOR.h"
 
 /*===============CONSTRUCTORS===================*/
 

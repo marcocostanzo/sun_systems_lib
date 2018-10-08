@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "TF_MIMO.h"
+#include "TF_MIMO/TF_MIMO.h"
 
 using namespace std;
 using namespace TooN;
