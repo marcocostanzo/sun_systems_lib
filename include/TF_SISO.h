@@ -67,7 +67,7 @@ public:
 /*=============SETTER===========================*/
     void setU_vect(TooN::Vector<> u_vect);
     void setY_vect(TooN::Vector<> y_vect);
-    double setYk( double yk );
+    void setYk( double yk );
 /*==============================================*/
 
 /*=============SETTER FROM FILE===========================*/

@@ -88,7 +88,7 @@ TF_SISO::TF_SISO():
         _y_vect = y_vect;
     }
 
-    double TF_SISO::setYk( double y_k ){
+    void TF_SISO::setYk( double y_k ){
         _y_k = y_k;
     }
 
