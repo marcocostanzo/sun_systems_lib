@@ -130,6 +130,7 @@ add_library(${PROJECT_NAME}
     src/TF_MIMO/TF_MIMO.cpp
     src/TF_MIMO/TF_MIMO_DIAGONAL.cpp
     src/SS_System/SS_System.cpp
+    src/Discretization/RK4.cpp
 )
 
 ## Add cmake target dependencies of the library
