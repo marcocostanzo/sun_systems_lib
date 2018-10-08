@@ -131,6 +131,7 @@ add_library(${PROJECT_NAME}
     src/TF_MIMO/TF_MIMO_DIAGONAL.cpp
     src/SS_System/SS_System.cpp
     src/Discretization/RK4.cpp
+    src/Kalman_Filter/Kalman_Filter.cpp
 )
 
 ## Add cmake target dependencies of the library
