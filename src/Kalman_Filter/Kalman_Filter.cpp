@@ -47,12 +47,12 @@ Kalman_Filter::Kalman_Filter(Vector<> initial_state, Matrix<> initial_covariance
 
 { 
 
-    Kalman_Filter::set_state(initial_state);
-    Kalman_Filter::set_f_fcn(f_fcn);
-    Kalman_Filter::set_FF_fcn(FF_fcn);
-    Kalman_Filter::set_h_fcn(h_fcn);
-    Kalman_Filter::set_HH_fcn(HH_fcn);
-    Kalman_Filter::set_covariance( initial_covariance );
+    set_state(initial_state);
+    set_f_fcn(f_fcn);
+    set_FF_fcn(FF_fcn);
+    set_h_fcn(h_fcn);
+    set_HH_fcn(HH_fcn);
+    set_covariance( initial_covariance );
 
 }
 
@@ -77,13 +77,13 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
 
 /*=============GETTER===========================*/
 
-    KF_FCN Kalman_Filter::get_f_fcn(){ return f_fcn; }
+    KF_FCN Kalman_Filter::get_f_fcn(){ return f_fcn_ptr; }
 
-    KF_JAC_FCN Kalman_Filter::get_FF_fcn(){ return FF_fcn; }
+    KF_JAC_FCN Kalman_Filter::get_FF_fcn(){ return FF_fcn_ptr; }
 
-    KF_FCN Kalman_Filter::get_h_fcn(){ return h_fcn; }
+    KF_FCN Kalman_Filter::get_h_fcn(){ return h_fcn_ptr; }
 
-    KF_JAC_FCN Kalman_Filter::get_HH_fcn(){ return HH_fcn; }
+    KF_JAC_FCN Kalman_Filter::get_HH_fcn(){ return HH_fcn_ptr; }
 
     Vector<> Kalman_Filter::get_state(){ return x_hat_k_k; }
 
@@ -96,19 +96,19 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
 /*=============SETTER===========================*/
 
     void Kalman_Filter::set_f_fcn(KF_FCN fcn){
-        f_fcn = fcn;
+        f_fcn_ptr = fcn;
     }
 
     void Kalman_Filter::set_FF_fcn(KF_JAC_FCN fcn){
-        FF_fcn = fcn;
+        FF_fcn_ptr = fcn;
     }
 
     void Kalman_Filter::set_h_fcn(KF_FCN fcn){
-        h_fcn = fcn;
+        h_fcn_ptr = fcn;
     }
 
     void Kalman_Filter::set_HH_fcn(KF_JAC_FCN fcn){
-        HH_fcn = fcn;
+        HH_fcn_ptr = fcn;
     }
 
     void Kalman_Filter::set_state(Vector<> state){
@@ -167,16 +167,16 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
 /*=============VARIE===========================*/
 
 	void Kalman_Filter::display(){
-	cout << endl << "===========================" << endl;
-	cout << "Kalman Filter DISP:" << endl;
-	cout << "state = " << endl;
-	cout << x_hat_k_k << endl;
-	cout << "output = " << endl;
-	cout << y_hat_k_k1 << endl;
-    cout << "covariance = " << endl;
-	cout << P_k_k << endl;
-	cout << "===========================" << endl;
-}
+        cout << endl << "===========================" << endl;
+        cout << "Kalman Filter DISP:" << endl;
+        cout << "state = " << endl;
+        cout << x_hat_k_k << endl;
+        cout << "output = " << endl;
+        cout << y_hat_k_k1 << endl;
+        cout << "covariance = " << endl;
+        cout << P_k_k << endl;
+        cout << "===========================" << endl;
+    }
 
     void Kalman_Filter::reset(){
 
@@ -185,6 +185,23 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
         y_hat_k_k1 = Zeros;
 
     }
+
+    Vector<> Kalman_Filter::f_fcn(const Vector<>& x_k_1, const Vector<>& u_k){
+        return f_fcn_ptr( x_k_1, u_k );
+    }
+    
+    Matrix<> Kalman_Filter::FF_fcn(const Vector<>& x_k_1, const Vector<>& u_k){
+        return FF_fcn_ptr( x_k_1, u_k );
+    }
+
+    Vector<> Kalman_Filter::h_fcn(const Vector<>& x_k_1, const Vector<>& u_k){
+        return h_fcn_ptr( x_k_1, u_k );
+    }
+
+    Matrix<> Kalman_Filter::HH_fcn(const Vector<>& x_k_1, const Vector<>& u_k){
+        return HH_fcn_ptr( x_k_1, u_k );
+    }
+
 /*==============================================*/
 
 /*=============STATIC FUNS===========================*/	

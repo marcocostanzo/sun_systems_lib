@@ -1,6 +1,6 @@
 
 /*
-    Kalman_Filter Class
+    Kalman_Filter_RK4 is a Kalman_Filter that use RK4 discretization Class
 
     Copyright 2018 Università della Campania Luigi Vanvitelli
 
@@ -18,74 +18,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KALMAN_FILTER_LIB
-#define KALMAN_FILTER_LIB
+#ifndef KALMAN_FILTER_RK4_LIB
+#define KALMAN_FILTER_RK4_LIB
 
 
-#include <TooN/TooN.h>
-#include "TooN/SVD.h"
-#include <Helper.h>
+#include <Kalman_Filter/Kalman_Filter.h>
+#include <Discretization/RK4.h>
 
-typedef TooN::Vector<> (*KF_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
-typedef TooN::Matrix<> (*KF_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
-
-class Kalman_Filter{
+class Kalman_Filter_RK4 : public Kalman_Filter{
 
 private:
 
-    Kalman_Filter(); //NO DEFAULT CONSTRUCTOR
+	Kalman_Filter_RK4(); //NO DEFAULT CONSTRUCTOR
 
 protected:
 
-    KF_FCN f_fcn_ptr;
-    KF_JAC_FCN FF_fcn_ptr;
-    KF_FCN h_fcn_ptr;
-    KF_JAC_FCN HH_fcn_ptr;
-
-    TooN::Vector<> x_hat_k_k;
-    TooN::Matrix<> P_k_k;
-    TooN::Vector<> y_hat_k_k1;
-
-    //Internal Vars
-    TooN::Vector<> x_hat_k1_k1;
-    TooN::Matrix<> P_k1_k1;
-    TooN::Vector<> x_hat_k_k1;
-    TooN::Matrix<> F_k1;
-    TooN::Matrix<> Identity_x;
-    TooN::Matrix<> P_k_k1;
-    TooN::Vector<> y_tilde_k;
-    TooN::Matrix<> H_k;
-    TooN::Matrix<> S_k;
-    TooN::Matrix<> K_k;
+    RK4 rk4;
 
 public:
 /*===============CONSTRUCTORS===================*/
-	Kalman_Filter(TooN::Vector<> initial_state, TooN::Matrix<> initial_covariance, const int outDim, KF_FCN f_fcn, KF_JAC_FCN FF_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn); //COMPLETE CONSTRUCTOR
+	Kalman_Filter_RK4( TooN::Vector<> initial_state, TooN::Matrix<> initial_covariance, const int inDim, const int outDim, RK4_FCN f_cnt_fcn, RK4_JAC_FCN FF_cnt_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn, double Ts); //COMPLETE CONSTRUCTOR
 
-	//Kalman_Filter(const Kalman_Filter& kf);
+	//Kalman_Filter_RK4(const Kalman_Filter_RK4& kf);
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	
-//	~Kalman_Filter(); //(destructor)
+//	~Kalman_Filter_RK4(); //(destructor)
 /*==============================================*/
 
 /*=============GETTER===========================*/
-	KF_FCN get_f_fcn();
-    KF_JAC_FCN get_FF_fcn();
-    KF_FCN get_h_fcn();
-    KF_JAC_FCN get_HH_fcn();
-    TooN::Vector<> get_state();
-    TooN::Vector<> get_output();
-    TooN::Matrix<> get_covariance();
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    void set_f_fcn(KF_FCN fcn);
-    void set_FF_fcn(KF_JAC_FCN fcn);
-    void set_h_fcn(KF_FCN fcn);
-    void set_HH_fcn(KF_JAC_FCN fcn);
-    virtual void set_state(TooN::Vector<> state);
-    void set_covariance( TooN::Matrix<> P );
+    virtual void setPrecInput( TooN::Vector<> prec_input);
 /*==============================================*/
 
 /*=============SETTER FROM FILE===========================*/
@@ -100,8 +65,6 @@ public:
     virtual void reset();
     virtual TooN::Vector<> f_fcn(const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k);
     virtual TooN::Matrix<> FF_fcn(const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k);
-    virtual TooN::Vector<> h_fcn(const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k);
-    virtual TooN::Matrix<> HH_fcn(const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k);
 /*==============================================*/
 
 };

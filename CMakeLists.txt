@@ -132,6 +132,7 @@ add_library(${PROJECT_NAME}
     src/SS_System/SS_System.cpp
     src/Discretization/RK4.cpp
     src/Kalman_Filter/Kalman_Filter.cpp
+    src/Kalman_Filter/Kalman_Filter_RK4.cpp
 )
 
 ## Add cmake target dependencies of the library
