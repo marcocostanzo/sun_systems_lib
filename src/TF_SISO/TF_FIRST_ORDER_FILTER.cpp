@@ -35,6 +35,13 @@ using namespace TooN;
         TF_FIRST_ORDER_FILTER(cut_freq, Ts, 1.0){};
 
 	//TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf);
+
+    /*
+    Clone the object
+    */
+    TF_FIRST_ORDER_FILTER* TF_FIRST_ORDER_FILTER::clone() const{
+        return new TF_FIRST_ORDER_FILTER(*this);
+    }
 /*==============================================*/
 /*===============STATIC FUNCTIONS FOR SIMPLE CONSTRUCTOR WRITING=======*/
     Vector<2> TF_FIRST_ORDER_FILTER::tf_first_order_get_b_vect(double cut_freq, double Ts){

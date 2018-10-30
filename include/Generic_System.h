@@ -24,6 +24,7 @@
 
 #include <TooN/TooN.h>
 #include <Helper.h>
+#include <memory>
 
 class Generic_System
 {
@@ -50,6 +51,13 @@ public:
         std::cout << BOLDYELLOW "WARNING! disp() not implemented for derived of Generic_System" CRESET << std::endl;
     }
 
+    /*
+            Clone the object
+    */
+    virtual Generic_System* clone() const = 0;
+
 };
+
+using Generic_System_Ptr = std::unique_ptr<Generic_System>;
 
 #endif

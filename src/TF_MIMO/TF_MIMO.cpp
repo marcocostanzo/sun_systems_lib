@@ -25,18 +25,21 @@ using namespace std;
 using namespace TooN;
 
 /*===============CONSTRUCTORS===================*/
-    TF_MIMO::TF_MIMO(int dim_input, int dim_output, vector<TF_SISO> siso_matrix_vect, double Ts):
+    TF_MIMO::TF_MIMO(int dim_input, int dim_output, const vector<TF_SISO_Ptr>& siso_matrix_vect, double Ts):
         Linear_System(Ts),
         _mimo_dim_input(dim_input),
-        _mimo_dim_output(dim_output),
-        _siso_vect(siso_matrix_vect){
+        _mimo_dim_output(dim_output)
+        {
             if( siso_matrix_vect.size() != dim_input*dim_output ){
                 cout << BOLDRED "[TF_MIMO Constructor]: Invalid std::vector size!" CRESET << endl;
                 exit(-1);
             }
+            for( const auto &element : siso_matrix_vect ){
+                _siso_vect.push_back( TF_SISO_Ptr( element->clone() ) );
+            }
         }
     
-    TF_MIMO::TF_MIMO(int dim_input, int dim_output, vector<TF_SISO> siso_matrix_vect):
+    TF_MIMO::TF_MIMO(int dim_input, int dim_output, const vector<TF_SISO_Ptr>& siso_matrix_vect):
         TF_MIMO(dim_input, dim_output, siso_matrix_vect, -1){}
 
     TF_MIMO::TF_MIMO(int dim_input, int dim_output, double Ts):
@@ -46,16 +49,16 @@ using namespace TooN;
         _siso_vect(){
 
             for(int i = 0; i < dim_input*dim_output; i++)
-                _siso_vect.push_back( TF_SISO() );
+                _siso_vect.push_back( TF_SISO_Ptr( new TF_SISO() ) );
         }
 
     TF_MIMO::TF_MIMO(int dim_input, int dim_output):
         TF_MIMO(dim_input, dim_output, 1.0){}
 
-    TF_MIMO::TF_MIMO(int dim_input, vector<TF_SISO> siso_matrix_vect, double Ts):
+    TF_MIMO::TF_MIMO(int dim_input, const vector<TF_SISO_Ptr>& siso_matrix_vect, double Ts):
         TF_MIMO(dim_input, siso_matrix_vect.size()/dim_input, siso_matrix_vect, Ts){}
 
-    TF_MIMO::TF_MIMO(int dim_input, vector<TF_SISO> siso_matrix_vect):
+    TF_MIMO::TF_MIMO(int dim_input, const vector<TF_SISO_Ptr>& siso_matrix_vect):
         TF_MIMO(dim_input, siso_matrix_vect, -1){}
 
 /*==============================================*/
@@ -69,18 +72,24 @@ using namespace TooN;
     }
     
     //return std::vector representing the TF Matrix of the MIMO SYSTEM
-    vector<TF_SISO> TF_MIMO::getSISOMatrixVect(){
-        return _siso_vect;
+    vector<TF_SISO_Ptr> TF_MIMO::getSISOMatrixVect(){
+        vector<TF_SISO_Ptr> out;
+        for( const auto &element : _siso_vect ){
+            out.push_back( TF_SISO_Ptr( element->clone() )  );
+        }
+        return out;
     }
 
     /*=============SETTER===========================*/
-    void TF_MIMO::setSISOMatrixVect(std::vector<TF_SISO> siso_matrix_vect ){
+    void TF_MIMO::setSISOMatrixVect(const std::vector<TF_SISO_Ptr>& siso_matrix_vect ){
         if( siso_matrix_vect.size() != _mimo_dim_input*_mimo_dim_output ){
             cout << BOLDRED "[TF_MIMO::setSISOMatrixVect]: Invalid std::vector size!" CRESET << endl;
             exit(-1);
         }
         _siso_vect.clear();
-        _siso_vect = siso_matrix_vect;
+        for( const auto &element : siso_matrix_vect ){
+            _siso_vect.push_back( TF_SISO_Ptr( element->clone() ) );
+        }
     }
     /*==============================================*/
 
@@ -92,7 +101,7 @@ using namespace TooN;
         
         for(int i = 0; i < _mimo_dim_output ; i++){
             for(int j = 0; j < _mimo_dim_input; j++ ){
-                out[i] += _siso_vect[ i*_mimo_dim_input + j ].apply(input[j]);
+                out[i] += _siso_vect[ i*_mimo_dim_input + j ]->apply(input[j]);
             }
         }
 
@@ -105,8 +114,8 @@ using namespace TooN;
     /*=============VARIE===========================*/
 
     void TF_MIMO::reset(){
-        for(auto tf : _siso_vect){
-            tf.reset();
+        for(const auto &tf : _siso_vect){
+            tf->reset();
         }
     }
 
@@ -116,7 +125,7 @@ using namespace TooN;
         for(int i = 0; i < _mimo_dim_output ; i++){
             for(int j = 0; j < _mimo_dim_input; j++ ){
                 cout << "TF " << i+1 << "/" << _mimo_dim_output << "|" << j+1 << "/" << _mimo_dim_input << ":" << endl;
-                _siso_vect[ i*_mimo_dim_input + j ].display();
+                _siso_vect[ i*_mimo_dim_input + j ]->display();
             }
         }
         cout << endl << "===========================" << endl;
@@ -126,7 +135,7 @@ using namespace TooN;
     /*==============================================*/
 
     /*=============OPERATORS================*/
-    TF_SISO& TF_MIMO::operator()(int row, int col){
-        return _siso_vect[ row*_mimo_dim_input + col ];
+    TF_SISO* TF_MIMO::operator()(int row, int col){
+        return _siso_vect[ row*_mimo_dim_input + col ].get();
     }
     /*==============================================*/

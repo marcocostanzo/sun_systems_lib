@@ -49,7 +49,12 @@ public:
     TF_SISO(double Ts);
     TF_SISO();
 
-	//TF_SISO(const TF_SISO& tf);
+	TF_SISO(const TF_SISO& tf) = default;
+
+    /*
+            Clone the object
+    */
+    virtual TF_SISO* clone() const;
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	
@@ -87,9 +92,9 @@ public:
 
 };
 
-
 /*=============STATIC FUNS===========================*/
-
 /*==============================================*/
+
+using TF_SISO_Ptr = std::unique_ptr<TF_SISO>;
 
 #endif

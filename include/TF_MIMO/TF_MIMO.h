@@ -29,7 +29,8 @@ class TF_MIMO : public Linear_System {
     private:
 
     protected:
-        std::vector<TF_SISO> _siso_vect;//std::vector representing the TF Matrix of the MIMO SYSTEM
+
+        std::vector<TF_SISO_Ptr> _siso_vect;//std::vector representing the TF Matrix of the MIMO SYSTEM
         unsigned int _mimo_dim_input;
         unsigned int _mimo_dim_output;
 
@@ -37,22 +38,22 @@ class TF_MIMO : public Linear_System {
 
     /*===============CONSTRUCTORS===================*/
     virtual ~TF_MIMO();
-    TF_MIMO(int dim_input, int dim_output, std::vector<TF_SISO> siso_matrix_vect, double Ts);
-    TF_MIMO(int dim_input, int dim_output, std::vector<TF_SISO> siso_matrix_vect);
+    TF_MIMO(int dim_input, int dim_output, const std::vector<TF_SISO_Ptr>& siso_matrix_vect, double Ts);
+    TF_MIMO(int dim_input, int dim_output, const std::vector<TF_SISO_Ptr>& siso_matrix_vect);
     TF_MIMO(int dim_input, int dim_output, double Ts);
     TF_MIMO(int dim_input, int dim_output);
-    TF_MIMO(int dim_input, std::vector<TF_SISO> siso_matrix_vect, double Ts);
-    TF_MIMO(int dim_input, std::vector<TF_SISO> siso_matrix_vect);
+    TF_MIMO(int dim_input, const std::vector<TF_SISO_Ptr>& siso_matrix_vect, double Ts);
+    TF_MIMO(int dim_input, const std::vector<TF_SISO_Ptr>& siso_matrix_vect);
     /*==============================================*/
     /*=============GETTER===========================*/
 	const unsigned int getDimInput();
     const unsigned int getDimOutput();
     
     //return std::vector representing the TF Matrix of the MIMO SYSTEM
-    virtual std::vector<TF_SISO> getSISOMatrixVect();
+    virtual std::vector<TF_SISO_Ptr> getSISOMatrixVect();
     /*==============================================*/
     /*=============SETTER===========================*/
-    virtual void setSISOMatrixVect(std::vector<TF_SISO> siso_matrix_vect );
+    virtual void setSISOMatrixVect(const std::vector<TF_SISO_Ptr>& siso_matrix_vect );
     /*==============================================*/
     /*=============RUNNER===========================*/
     virtual TooN::Vector<> apply( TooN::Vector<> input );
@@ -62,7 +63,7 @@ class TF_MIMO : public Linear_System {
     virtual void display();
     /*==============================================*/
     /*=============OPERATORS================*/
-    virtual TF_SISO& operator()(int row, int col);
+    virtual TF_SISO* operator()(int row, int col);
     /*==============================================*/
 
 

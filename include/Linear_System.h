@@ -35,4 +35,6 @@ class Linear_System : public Generic_System {
 
 };
 
+using Linear_System_Ptr = std::unique_ptr<Linear_System>;
+
 #endif

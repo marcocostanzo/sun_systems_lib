@@ -39,7 +39,12 @@ public:
     TF_FIRST_ORDER_FILTER(double cut_freq, double Ts);
     TF_FIRST_ORDER_FILTER(double cut_freq, double Ts, double gain);
 
-	//TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf);
+	TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf) = default;
+
+    /*
+            Clone the object
+    */
+    virtual TF_FIRST_ORDER_FILTER* clone() const;
 /*==============================================*/
 /*===============STATIC FUNCTIONS FOR SIMPLE CONSTRUCTOR WRITING=======*/
     static TooN::Vector<2> tf_first_order_get_b_vect(double cut_freq, double Ts);
@@ -69,9 +74,9 @@ public:
 
 };
 
-
 /*=============STATIC FUNS===========================*/
-
 /*==============================================*/
+
+using TF_FIRST_ORDER_FILTER_Ptr = std::unique_ptr<TF_FIRST_ORDER_FILTER>;
 
 #endif

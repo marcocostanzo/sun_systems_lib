@@ -38,6 +38,13 @@ public:
 /*===============CONSTRUCTORS===================*/
     TF_INTEGRATOR(double Ts, double gain);
     TF_INTEGRATOR(double Ts);
+    
+    /*
+            Clone the object
+    */
+    virtual TF_INTEGRATOR* clone() const;
+
+    TF_INTEGRATOR( const TF_INTEGRATOR& tf ) = default;
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	
@@ -63,9 +70,9 @@ public:
 
 };
 
-
 /*=============STATIC FUNS===========================*/
-
 /*==============================================*/
+
+using TF_INTEGTATOR_Ptr = std::unique_ptr<TF_INTEGTATOR>;
 
 #endif

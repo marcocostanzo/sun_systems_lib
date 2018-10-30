@@ -33,6 +33,13 @@
 
     TF_INTEGRATOR::TF_INTEGRATOR(double Ts) : 
         TF_INTEGRATOR(Ts, 1.0){};
+
+    /*
+    Clone the object
+    */
+    TF_INTEGRATOR* TF_INTEGRATOR::clone() const{
+        return new TF_INTEGRATOR(*this);
+    }
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	

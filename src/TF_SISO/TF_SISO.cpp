@@ -53,6 +53,12 @@ TF_SISO::TF_SISO():
 
 //TF_SISO(const TF_SISO& tf);
 
+/*
+    Clone the object
+*/
+TF_SISO* TF_SISO::clone() const{
+    return new TF_SISO(*this);
+}
 
 /*==============================================*/
 

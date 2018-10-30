@@ -34,10 +34,10 @@ class TF_MIMO_DIAGONAL : public TF_MIMO {
 
     /*===============CONSTRUCTORS===================*/
     virtual ~TF_MIMO_DIAGONAL();
-    TF_MIMO_DIAGONAL(std::vector<TF_SISO> siso_diag_vect, double Ts);
-    TF_MIMO_DIAGONAL(std::vector<TF_SISO> siso_diag_vect);
-    TF_MIMO_DIAGONAL(int dim_diag, TF_SISO base_tf_system, double Ts);
-    TF_MIMO_DIAGONAL(int dim_diag, TF_SISO base_tf_system);
+    TF_MIMO_DIAGONAL(const std::vector<TF_SISO_Ptr>& siso_diag_vect, double Ts);
+    TF_MIMO_DIAGONAL(const std::vector<TF_SISO_Ptr>& siso_diag_vect);
+    TF_MIMO_DIAGONAL(int dim_diag, const TF_SISO& base_tf_system, double Ts);
+    TF_MIMO_DIAGONAL(int dim_diag, const TF_SISO& base_tf_system);
     TF_MIMO_DIAGONAL(int dim_diag, double Ts);
     TF_MIMO_DIAGONAL(int dim_diag);
     /*==============================================*/
@@ -45,25 +45,25 @@ class TF_MIMO_DIAGONAL : public TF_MIMO {
 	const unsigned int getDimDiag();
     
     //return std::vector representing the TF Matrix of the MIMO SYSTEM
-    std::vector<TF_SISO> getSISOMatrixVect();
-    std::vector<TF_SISO> getSISODiagVect();
+    std::vector<TF_SISO_Ptr> getSISOMatrixVect();
+    std::vector<TF_SISO_Ptr> getSISODiagVect();
     /*==============================================*/
     /*=============SETTER===========================*/
     //Warn! This method will consider only the elements on the diagonal!
-    virtual void setSISOMatrixVect(std::vector<TF_SISO> siso_matrix_vect );
-    virtual void setSISODiagVect(std::vector<TF_SISO> siso_diag_vect );
+    virtual void setSISOMatrixVect(const std::vector<TF_SISO_Ptr>& siso_matrix_vect );
+    virtual void setSISODiagVect(const std::vector<TF_SISO_Ptr>& siso_diag_vect );
     /*==============================================*/
     /*=============RUNNER===========================*/
     virtual TooN::Vector<> apply( TooN::Vector<> input );
     /*==============================================*/
     /*=============VARIE===========================*/
     virtual void display();
-    static std::vector<TF_SISO> expandDiagToMatrix(std::vector<TF_SISO> siso_diag_vect);
+    static std::vector<TF_SISO_Ptr> expandDiagToMatrix(const std::vector<TF_SISO_Ptr>& siso_diag_vect);
     /*==============================================*/
 
     /*=============OPERATORS================*/
-    virtual TF_SISO& operator()(int row, int col);
-    virtual TF_SISO& operator()(int diag_index);
+    virtual TF_SISO* operator()(int row, int col);
+    virtual TF_SISO* operator()(int diag_index);
     /*==============================================*/
 
 };
