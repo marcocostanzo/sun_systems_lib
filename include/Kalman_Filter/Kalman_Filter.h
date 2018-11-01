@@ -26,7 +26,6 @@
 
 #include <TooN/TooN.h>
 #include "TooN/SVD.h"
-#include <Helper.h>
 
 typedef TooN::Vector<> (*KF_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
 typedef TooN::Matrix<> (*KF_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type

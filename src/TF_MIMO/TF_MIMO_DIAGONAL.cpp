@@ -78,7 +78,7 @@ using namespace TooN;
     //Warn! This method will consider only the elements on the diagonal!
     void TF_MIMO_DIAGONAL::setSISOMatrixVect(const std::vector<TF_SISO_Ptr>& siso_matrix_vect ){
         if( siso_matrix_vect.size() != _mimo_dim_input*_mimo_dim_output ){
-            cout << BOLDRED "[TF_MIMO_DIAGONAL::setSISOMatrixVect]: Invalid std::vector size!" CRESET << endl;
+            cout << ERRORCOLOR "[TF_MIMO_DIAGONAL::setSISOMatrixVect]: Invalid std::vector size!" CRESET << endl;
             exit(-1);
         }
         
@@ -93,7 +93,7 @@ using namespace TooN;
 
     void TF_MIMO_DIAGONAL::setSISODiagVect(const std::vector<TF_SISO_Ptr>& siso_diag_vect ){
         if( siso_diag_vect.size() != _mimo_dim_input ){
-            cout << BOLDRED "[TF_MIMO_DIAGONAL::setSISODiagVect]: Invalid std::vector size!" CRESET << endl;
+            cout << ERRORCOLOR "[TF_MIMO_DIAGONAL::setSISODiagVect]: Invalid std::vector size!" CRESET << endl;
             exit(-1);
         }
         _siso_vect.clear();
@@ -152,7 +152,7 @@ using namespace TooN;
         if(row == col){
             return _siso_vect[row].get();
         } else{
-            cout << BOLDYELLOW "[TF_MIMO_DIAGONAL::operator()(int row, int col)] row!=col in diagonal system!... row used as index" CRESET << endl;
+            cout << WARNCOLOR "[TF_MIMO_DIAGONAL::operator()(int row, int col)] row!=col in diagonal system!... row used as index" CRESET << endl;
             return _siso_vect[row].get();
         }
     }

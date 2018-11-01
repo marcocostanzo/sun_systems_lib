@@ -31,7 +31,7 @@ using namespace TooN;
         _mimo_dim_output(dim_output)
         {
             if( siso_matrix_vect.size() != dim_input*dim_output ){
-                cout << BOLDRED "[TF_MIMO Constructor]: Invalid std::vector size!" CRESET << endl;
+                cout << ERRORCOLOR "[TF_MIMO Constructor]: Invalid std::vector size!" CRESET << endl;
                 exit(-1);
             }
             for( const auto &element : siso_matrix_vect ){
@@ -83,7 +83,7 @@ using namespace TooN;
     /*=============SETTER===========================*/
     void TF_MIMO::setSISOMatrixVect(const std::vector<TF_SISO_Ptr>& siso_matrix_vect ){
         if( siso_matrix_vect.size() != _mimo_dim_input*_mimo_dim_output ){
-            cout << BOLDRED "[TF_MIMO::setSISOMatrixVect]: Invalid std::vector size!" CRESET << endl;
+            cout << ERRORCOLOR "[TF_MIMO::setSISOMatrixVect]: Invalid std::vector size!" CRESET << endl;
             exit(-1);
         }
         _siso_vect.clear();

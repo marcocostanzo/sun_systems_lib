@@ -23,8 +23,12 @@
 #define GENERIC_SYSTEM_LIB
 
 #include <TooN/TooN.h>
-#include <Helper.h>
 #include <memory>
+
+#define ERRORCOLOR      "\033[1m\033[31m"      /* Bold Red */
+#define SUCCESSCOLOR    "\033[1m\033[32m"      /* Bold Green */
+#define WARNCOLOR       "\033[1m\033[33m"      /* Bold Yellow */
+#define CRESET          "\033[0m"
 
 class Generic_System
 {
@@ -48,7 +52,7 @@ public:
     virtual double getTs(){return _Ts;}
 
     virtual void display(){
-        std::cout << BOLDYELLOW "WARNING! disp() not implemented for derived of Generic_System" CRESET << std::endl;
+        std::cout << WARNCOLOR "WARNING! disp() not implemented for derived of Generic_System" CRESET << std::endl;
     }
 
     /*

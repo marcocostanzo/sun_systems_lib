@@ -37,7 +37,7 @@ using namespace std;
         {
 
             if(!checkMatrixDims()){
-                cout << BOLDRED "[SS_System]: ERROR in matrix dimentions" CRESET << endl;
+                cout << WARNCOLOR "[SS_System]: ERROR in matrix dimentions" CRESET << endl;
                 exit(-1);
             }
 
@@ -100,7 +100,7 @@ using namespace std;
     void SS_System::setA(Matrix<> A){
         _A = A;
         if(!checkMatrixDims()){
-            cout << BOLDRED "[SS_System]: ERROR in setA() matrix dimentions" CRESET << endl;
+            cout << WARNCOLOR "[SS_System]: ERROR in setA() matrix dimentions" CRESET << endl;
             exit(-1);
         }
     }
@@ -108,7 +108,7 @@ using namespace std;
     void SS_System::setB(Matrix<> B){
         _B = B;
         if(!checkMatrixDims()){
-            cout << BOLDRED "[SS_System]: ERROR in setB() matrix dimentions" CRESET << endl;
+            cout << WARNCOLOR "[SS_System]: ERROR in setB() matrix dimentions" CRESET << endl;
             exit(-1);
         }
     }
@@ -116,7 +116,7 @@ using namespace std;
     void SS_System::setC(Matrix<> C){
         _C = C;
         if(!checkMatrixDims()){
-            cout << BOLDRED "[SS_System]: ERROR in setC() matrix dimentions" CRESET << endl;
+            cout << WARNCOLOR "[SS_System]: ERROR in setC() matrix dimentions" CRESET << endl;
             exit(-1);
         }
     }
@@ -124,7 +124,7 @@ using namespace std;
     void SS_System::setD(Matrix<> D){
         _D = D;
         if(!checkMatrixDims()){
-            cout << BOLDRED "[SS_System]: ERROR in setD() matrix dimentions" CRESET << endl;
+            cout << WARNCOLOR "[SS_System]: ERROR in setD() matrix dimentions" CRESET << endl;
             exit(-1);
         }
     }
@@ -132,7 +132,7 @@ using namespace std;
     void SS_System::setX(Vector<> x){
         _x_k_1 = x;
         if(!checkMatrixDims()){
-            cout << BOLDRED "[SS_System]: ERROR in setX() matrix dimentions" CRESET << endl;
+            cout << WARNCOLOR "[SS_System]: ERROR in setX() matrix dimentions" CRESET << endl;
             exit(-1);
         }
     }

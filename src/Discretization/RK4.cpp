@@ -56,7 +56,7 @@ using namespace std;
         u_n1(Zeros(_size_input))
         {
 
-            cout << YELLOW "[RK4] in this version: Using ZOH in estimateFutureInputs()!" CRESET << endl;
+            cout << WARNCOLOR "[RK4] in this version: Using ZOH in estimateFutureInputs()!" CRESET << endl;
 
         }
 
