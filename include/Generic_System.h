@@ -39,13 +39,13 @@ private:
 protected:
     //Generic_System();
     
-    virtual ~Generic_System();
+    virtual ~Generic_System() = default;
 
     Generic_System(double Ts) : _Ts(Ts){};
 
 public:
 
-    virtual TooN::Vector<> apply( TooN::Vector<> input ) = 0;
+    virtual TooN::Vector<> apply( const TooN::Vector<>& input ) = 0;
 
     virtual void reset() = 0;
 

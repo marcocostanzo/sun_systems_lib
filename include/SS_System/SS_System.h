@@ -50,6 +50,8 @@ public:
     SS_System(double Ts);
     SS_System();
 
+    virtual ~SS_System() = default;
+
 	//SS_System(const TF_SISO& tf);
 /*==============================================*/
 
@@ -79,7 +81,7 @@ public:
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-    virtual TooN::Vector<> apply( TooN::Vector<> input );
+    virtual TooN::Vector<> apply( const TooN::Vector<>& input );
 /*==============================================*/
 
 /*=============VARIE===========================*/

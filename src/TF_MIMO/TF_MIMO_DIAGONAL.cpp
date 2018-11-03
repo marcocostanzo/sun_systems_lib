@@ -53,6 +53,14 @@ using namespace TooN;
     TF_MIMO_DIAGONAL::TF_MIMO_DIAGONAL(int dim_diag):
         TF_MIMO_DIAGONAL(dim_diag, -1.0){}
 
+    TF_MIMO_DIAGONAL::TF_MIMO_DIAGONAL( const TF_MIMO_DIAGONAL& tf ) : 
+        TF_MIMO(tf)
+        {}
+
+    TF_MIMO_DIAGONAL* TF_MIMO_DIAGONAL::clone() const{
+        return new TF_MIMO_DIAGONAL(*this);
+    }
+
     /*==============================================*/
 
     /*=============GETTER===========================*/
@@ -104,7 +112,7 @@ using namespace TooN;
     /*==============================================*/
 
     /*=============RUNNER===========================*/
-    Vector<> TF_MIMO_DIAGONAL::apply( Vector<> input ){
+    Vector<> TF_MIMO_DIAGONAL::apply( const Vector<>& input ){
 
         Vector<> out = Zeros(_mimo_dim_output);
         

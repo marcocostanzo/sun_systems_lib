@@ -51,6 +51,8 @@ public:
 
 	TF_SISO(const TF_SISO& tf) = default;
 
+    virtual ~TF_SISO() = default;
+
     /*
             Clone the object
     */
@@ -82,7 +84,7 @@ public:
 
 /*=============RUNNER===========================*/
 	virtual double apply( double uk);
-    TooN::Vector<> apply( TooN::Vector<> input );
+    TooN::Vector<> apply( const TooN::Vector<>& input );
 /*==============================================*/
 
 /*=============VARIE===========================*/

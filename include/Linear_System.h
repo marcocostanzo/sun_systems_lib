@@ -30,8 +30,12 @@ class Linear_System : public Generic_System {
     protected:
 
     public:
-    virtual ~Linear_System();
+
+    virtual ~Linear_System() = default;
+
     Linear_System(double Ts) : Generic_System(Ts){};
+
+    Linear_System( const Linear_System& sys ) = default;
 
 };
 

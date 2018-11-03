@@ -33,13 +33,20 @@ class TF_MIMO_DIAGONAL : public TF_MIMO {
     public:
 
     /*===============CONSTRUCTORS===================*/
-    virtual ~TF_MIMO_DIAGONAL();
+
     TF_MIMO_DIAGONAL(const std::vector<TF_SISO_Ptr>& siso_diag_vect, double Ts);
     TF_MIMO_DIAGONAL(const std::vector<TF_SISO_Ptr>& siso_diag_vect);
     TF_MIMO_DIAGONAL(int dim_diag, const TF_SISO& base_tf_system, double Ts);
     TF_MIMO_DIAGONAL(int dim_diag, const TF_SISO& base_tf_system);
     TF_MIMO_DIAGONAL(int dim_diag, double Ts);
     TF_MIMO_DIAGONAL(int dim_diag);
+
+    TF_MIMO_DIAGONAL( const TF_MIMO_DIAGONAL& tf );
+
+    virtual ~TF_MIMO_DIAGONAL() = default;
+
+    virtual TF_MIMO_DIAGONAL* clone() const;
+
     /*==============================================*/
     /*=============GETTER===========================*/
 	const unsigned int getDimDiag();
@@ -54,7 +61,7 @@ class TF_MIMO_DIAGONAL : public TF_MIMO {
     virtual void setSISODiagVect(const std::vector<TF_SISO_Ptr>& siso_diag_vect );
     /*==============================================*/
     /*=============RUNNER===========================*/
-    virtual TooN::Vector<> apply( TooN::Vector<> input );
+    virtual TooN::Vector<> apply( const TooN::Vector<>& input );
     /*==============================================*/
     /*=============VARIE===========================*/
     virtual void display();

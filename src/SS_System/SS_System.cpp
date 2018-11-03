@@ -142,7 +142,7 @@ using namespace std;
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-    Vector<> SS_System::apply( Vector<> input ){
+    Vector<> SS_System::apply( const Vector<>& input ){
 
         _x_k_1 = _A * _x_k_1 + _B * input;
         _y_k = _C * _x_k_1 + _D * input;

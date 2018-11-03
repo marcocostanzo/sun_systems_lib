@@ -61,6 +61,20 @@ using namespace TooN;
     TF_MIMO::TF_MIMO(int dim_input, const vector<TF_SISO_Ptr>& siso_matrix_vect):
         TF_MIMO(dim_input, siso_matrix_vect, -1){}
 
+    TF_MIMO::TF_MIMO( const TF_MIMO& tf ) : 
+        Linear_System(tf),
+        _mimo_dim_input(tf._mimo_dim_input),
+        _mimo_dim_output(tf._mimo_dim_output)
+        {
+       for( const auto& element : tf._siso_vect ){
+            _siso_vect.push_back( TF_SISO_Ptr( element->clone() ) );
+       }  
+    }
+
+    TF_MIMO* TF_MIMO::clone() const{
+        return new TF_MIMO(*this);
+    }
+
 /*==============================================*/
 
 /*=============GETTER===========================*/
@@ -95,7 +109,7 @@ using namespace TooN;
 
     /*=============RUNNER===========================*/
 
-    Vector<> TF_MIMO::apply( TooN::Vector<> input ){
+    Vector<> TF_MIMO::apply( const Vector<>& input ){
 
         Vector<> out = Zeros(_mimo_dim_output);
         

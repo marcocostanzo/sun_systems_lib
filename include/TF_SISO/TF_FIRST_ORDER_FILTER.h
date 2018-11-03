@@ -41,6 +41,8 @@ public:
 
 	TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf) = default;
 
+    virtual ~TF_FIRST_ORDER_FILTER() = default;
+
     /*
             Clone the object
     */

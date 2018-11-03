@@ -38,6 +38,8 @@ public:
 /*===============CONSTRUCTORS===================*/
     TF_INTEGRATOR(double Ts, double gain);
     TF_INTEGRATOR(double Ts);
+
+    virtual ~TF_INTEGRATOR() = default;
     
     /*
             Clone the object

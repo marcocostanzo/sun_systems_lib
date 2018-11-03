@@ -120,7 +120,7 @@ TF_SISO* TF_SISO::clone() const{
     
     }
 
-    Vector<> TF_SISO::apply( Vector<> input ){
+    Vector<> TF_SISO::apply( const Vector<>& input ){
         return makeVector( apply( input[0] ) );
     }
 /*==============================================*/
