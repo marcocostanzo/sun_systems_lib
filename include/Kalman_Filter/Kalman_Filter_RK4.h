@@ -39,7 +39,7 @@ protected:
 
 public:
 /*===============CONSTRUCTORS===================*/
-	Kalman_Filter_RK4( TooN::Vector<> initial_state, TooN::Matrix<> initial_covariance, const int inDim, const int outDim, RK4_FCN f_cnt_fcn, RK4_JAC_FCN FF_cnt_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn, double Ts); //COMPLETE CONSTRUCTOR
+	Kalman_Filter_RK4( const TooN::Vector<>& initial_state, const TooN::Matrix<>& initial_covariance, const int inDim, const int outDim, const RK4_FCN& f_cnt_fcn, const RK4_JAC_FCN& FF_cnt_fcn, const KF_FCN& h_fcn, const KF_JAC_FCN& HH_fcn, double Ts); //COMPLETE CONSTRUCTOR
 
 	//Kalman_Filter_RK4(const Kalman_Filter_RK4& kf);
 /*==============================================*/
@@ -52,14 +52,14 @@ public:
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    virtual void setPrecInput( TooN::Vector<> prec_input);
+    virtual void setPrecInput( const TooN::Vector<>& prec_input);
 /*==============================================*/
 
 /*=============SETTER FROM FILE===========================*/
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-	virtual TooN::Vector<> apply( TooN::Vector<> y_measure, TooN::Vector<> u_measure, TooN::Matrix<> W_k1, TooN::Matrix<> V_k1 );
+	virtual TooN::Vector<> apply( const TooN::Vector<>& y_measure, const TooN::Vector<>& u_measure, const TooN::Matrix<>& W_k1, const TooN::Matrix<>& V_k1 );
 /*==============================================*/
 
 /*=============VARIE===========================*/

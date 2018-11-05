@@ -24,14 +24,17 @@
 #define RK4_LIB
 
 #include <TooN/TooN.h>
+#include "boost/function.hpp"
 
 #define ERRORCOLOR      "\033[1m\033[31m"      /* Bold Red */
 #define SUCCESSCOLOR    "\033[1m\033[32m"      /* Bold Green */
 #define WARNCOLOR       "\033[1m\033[33m"      /* Bold Yellow */
 #define CRESET          "\033[0m"
 
-typedef TooN::Vector<> (*RK4_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
-typedef TooN::Matrix<> (*RK4_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+//typedef TooN::Vector<> (*RK4_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+//typedef TooN::Matrix<> (*RK4_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+typedef boost::function<TooN::Vector<>(const TooN::Vector<>&, const TooN::Vector<>&)> RK4_FCN;
+typedef boost::function<TooN::Matrix<>(const TooN::Vector<>&, const TooN::Vector<>&)> RK4_JAC_FCN;
 
 class RK4{
 private:
@@ -67,9 +70,9 @@ private:
 public:
 /*===============CONSTRUCTORS===================*/
 
-    RK4( const int dim_state, TooN::Vector<> initial_prec_input, RK4_FCN ff, RK4_JAC_FCN FF, double Ts );
+    RK4( const int dim_state, const TooN::Vector<>& initial_prec_input, const RK4_FCN& ff, const RK4_JAC_FCN& FF, double Ts );
 
-    RK4( const int dim_state, const int dim_input , RK4_FCN ff, RK4_JAC_FCN FF, double Ts );
+    RK4( const int dim_state, const int dim_input , const RK4_FCN& ff, const RK4_JAC_FCN& FF, double Ts );
 
 	//RK4(const RK4& rk4);
 /*==============================================*/
@@ -83,16 +86,16 @@ public:
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    void setPrecInput( TooN::Vector<> prec_input);
+    void setPrecInput( const TooN::Vector<>& prec_input);
 /*==============================================*/
 
 /*=============SETTER FROM FILE===========================*/
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-    TooN::Vector<> apply_rk4( TooN::Vector<> x_n_1, TooN::Vector<> u_n );
-    TooN::Matrix<> apply_rk4_jac( TooN::Vector<> x_n_1, TooN::Vector<> __un );
-    void estimateFutureInputs(TooN::Vector<> u_n);
+    TooN::Vector<> apply_rk4( const TooN::Vector<>& x_n_1, const TooN::Vector<>& u_n );
+    TooN::Matrix<> apply_rk4_jac( const TooN::Vector<>& x_n_1, const TooN::Vector<>& __un );
+    void estimateFutureInputs(const TooN::Vector<>& u_n);
 /*==============================================*/
 
 /*=============VARIE===========================*/

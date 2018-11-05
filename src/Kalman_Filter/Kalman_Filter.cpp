@@ -30,7 +30,7 @@ using namespace std;
 
 /*===============CONSTRUCTORS===================*/
 //COMPLETE CONSTRUCTOR
-Kalman_Filter::Kalman_Filter(Vector<> initial_state, Matrix<> initial_covariance, const int outDim, KF_FCN f_fcn, KF_JAC_FCN FF_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn):
+Kalman_Filter::Kalman_Filter(const Vector<>& initial_state, const Matrix<>& initial_covariance, const int outDim, const KF_FCN& f_fcn, const KF_JAC_FCN& FF_fcn, const KF_FCN& h_fcn, const KF_JAC_FCN& HH_fcn):
     x_hat_k_k(initial_state),
     P_k_k(initial_covariance),
     y_hat_k_k1(Zeros(outDim)),
@@ -97,27 +97,27 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
 
 /*=============SETTER===========================*/
 
-    void Kalman_Filter::set_f_fcn(KF_FCN fcn){
+    void Kalman_Filter::set_f_fcn(const KF_FCN& fcn){
         f_fcn_ptr = fcn;
     }
 
-    void Kalman_Filter::set_FF_fcn(KF_JAC_FCN fcn){
+    void Kalman_Filter::set_FF_fcn(const KF_JAC_FCN& fcn){
         FF_fcn_ptr = fcn;
     }
 
-    void Kalman_Filter::set_h_fcn(KF_FCN fcn){
+    void Kalman_Filter::set_h_fcn(const KF_FCN& fcn){
         h_fcn_ptr = fcn;
     }
 
-    void Kalman_Filter::set_HH_fcn(KF_JAC_FCN fcn){
+    void Kalman_Filter::set_HH_fcn(const KF_JAC_FCN& fcn){
         HH_fcn_ptr = fcn;
     }
 
-    void Kalman_Filter::set_state(Vector<> state){
+    void Kalman_Filter::set_state(const Vector<>& state){
         x_hat_k_k = state;
     }
 
-    void Kalman_Filter::set_covariance( Matrix<> P ){
+    void Kalman_Filter::set_covariance( const Matrix<>& P ){
         P_k_k = P;
     }
 
@@ -128,7 +128,7 @@ Kalman_Filter::Kalman_Filter(const Kalman_Filter& kf):
 
 /*=============RUNNER===========================*/
 
-    Vector<> Kalman_Filter::apply( Vector<> y_k, Vector<> u_k1, Matrix<> W_k1, Matrix<> V_k ){
+    Vector<> Kalman_Filter::apply( const Vector<>& y_k, const Vector<>& u_k1, const Matrix<>& W_k1, const Matrix<>& V_k ){
 
         x_hat_k1_k1 = x_hat_k_k;
         P_k1_k1 = P_k_k;

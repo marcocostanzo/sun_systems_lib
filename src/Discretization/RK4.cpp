@@ -28,7 +28,7 @@ using namespace std;
 
 /*===============CONSTRUCTORS===================*/
 
-    RK4::RK4( const int dim_state, Vector<> initial_prec_input, RK4_FCN ff, RK4_JAC_FCN FF, double Ts ):
+    RK4::RK4( const int dim_state, const Vector<>& initial_prec_input, const RK4_FCN& ff, const RK4_JAC_FCN& FF, double Ts ):
         _Ts(Ts),
         _size_state(dim_state),
         _size_input(initial_prec_input.size()),
@@ -60,7 +60,7 @@ using namespace std;
 
         }
 
-    RK4::RK4( const int dim_state, const int dim_input , RK4_FCN ff, RK4_JAC_FCN FF, double Ts ):
+    RK4::RK4( const int dim_state, const int dim_input , const RK4_FCN& ff, const RK4_JAC_FCN& FF, double Ts ):
         RK4( dim_state, Zeros(dim_input), ff, FF, Ts )
         {
 
@@ -81,7 +81,7 @@ using namespace std;
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    void RK4::setPrecInput( Vector<> prec_input){
+    void RK4::setPrecInput( const Vector<>& prec_input){
         u_n_1 = prec_input;
     }
 /*==============================================*/
@@ -89,7 +89,7 @@ using namespace std;
 
 /*=============RUNNER===========================*/
 
-    Vector<> RK4::apply_rk4( Vector<> x_n_1, Vector<> u_n ){
+    Vector<> RK4::apply_rk4( const Vector<>& x_n_1, const Vector<>& u_n ){
 
         k1 = _ff( x_n_1 , u_n );
         k2 = _ff( x_n_1 + Ts_2*k1 , u_n12 );
@@ -102,7 +102,7 @@ using namespace std;
 
     }
 
-    Matrix<> RK4::apply_rk4_jac( Vector<> x_n_1, Vector<> u_n ){
+    Matrix<> RK4::apply_rk4_jac( const Vector<>& x_n_1, const Vector<>& u_n ){
 
         k1 = _ff( x_n_1 , u_n );
         k2 = _ff( x_n_1 + Ts_2*k1 , u_n12 );
@@ -119,7 +119,7 @@ using namespace std;
 
     }
 
-    void RK4::estimateFutureInputs(Vector<> u_n){
+    void RK4::estimateFutureInputs(const Vector<>& u_n){
 
         //WARN! this method is a ZOH, you must comment some lines to implement 1^ order interpolation
 

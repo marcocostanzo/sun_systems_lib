@@ -26,9 +26,12 @@
 
 #include <TooN/TooN.h>
 #include "TooN/SVD.h"
+#include "boost/function.hpp"
 
-typedef TooN::Vector<> (*KF_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
-typedef TooN::Matrix<> (*KF_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+//typedef TooN::Vector<> (*KF_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+//typedef TooN::Matrix<> (*KF_JAC_FCN)(const TooN::Vector<>&, const TooN::Vector<>&); //fcns handles type
+typedef boost::function<TooN::Vector<>(const TooN::Vector<>&, const TooN::Vector<>&)> KF_FCN;
+typedef boost::function<TooN::Matrix<>(const TooN::Vector<>&, const TooN::Vector<>&)> KF_JAC_FCN;
 
 class Kalman_Filter{
 
@@ -61,7 +64,7 @@ protected:
 
 public:
 /*===============CONSTRUCTORS===================*/
-	Kalman_Filter(TooN::Vector<> initial_state, TooN::Matrix<> initial_covariance, const int outDim, KF_FCN f_fcn, KF_JAC_FCN FF_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn); //COMPLETE CONSTRUCTOR
+	Kalman_Filter(const TooN::Vector<>& initial_state, const TooN::Matrix<>& initial_covariance, const int outDim, const KF_FCN& f_fcn, const KF_JAC_FCN& FF_fcn, const KF_FCN& h_fcn, const KF_JAC_FCN& HH_fcn); //COMPLETE CONSTRUCTOR
 
 	//Kalman_Filter(const Kalman_Filter& kf);
 /*==============================================*/
@@ -81,19 +84,19 @@ public:
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    void set_f_fcn(KF_FCN fcn);
-    void set_FF_fcn(KF_JAC_FCN fcn);
-    void set_h_fcn(KF_FCN fcn);
-    void set_HH_fcn(KF_JAC_FCN fcn);
-    virtual void set_state(TooN::Vector<> state);
-    void set_covariance( TooN::Matrix<> P );
+    void set_f_fcn(const KF_FCN& fcn);
+    void set_FF_fcn(const KF_JAC_FCN& fcn);
+    void set_h_fcn(const KF_FCN& fcn);
+    void set_HH_fcn(const KF_JAC_FCN& fcn);
+    virtual void set_state(const TooN::Vector<>& state);
+    void set_covariance( const TooN::Matrix<>& P );
 /*==============================================*/
 
 /*=============SETTER FROM FILE===========================*/
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-	virtual TooN::Vector<> apply( TooN::Vector<> y_measure, TooN::Vector<> u_measure, TooN::Matrix<> W_k1, TooN::Matrix<> V_k1 );
+	virtual TooN::Vector<> apply( const TooN::Vector<>& y_measure, const TooN::Vector<>& u_measure, const TooN::Matrix<>& W_k1, const TooN::Matrix<>& V_k1 );
 /*==============================================*/
 
 /*=============VARIE===========================*/

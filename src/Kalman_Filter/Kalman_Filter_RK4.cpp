@@ -30,7 +30,7 @@ using namespace std;
 
 
 /*===============CONSTRUCTORS===================*/
-	Kalman_Filter_RK4::Kalman_Filter_RK4(Vector<> initial_state, Matrix<> initial_covariance, const int inDim, const int outDim, RK4_FCN f_cnt_fcn, RK4_JAC_FCN FF_cnt_fcn, KF_FCN h_fcn, KF_JAC_FCN HH_fcn, double Ts): //COMPLETE CONSTRUCTOR
+	Kalman_Filter_RK4::Kalman_Filter_RK4(const Vector<>& initial_state, const Matrix<>& initial_covariance, const int inDim, const int outDim, const RK4_FCN& f_cnt_fcn, const RK4_JAC_FCN& FF_cnt_fcn, const KF_FCN& h_fcn, const KF_JAC_FCN& HH_fcn, double Ts): //COMPLETE CONSTRUCTOR
         Kalman_Filter(initial_state, initial_covariance, outDim, NULL, NULL, h_fcn, HH_fcn),
         rk4( initial_state.size(), inDim, f_cnt_fcn, FF_cnt_fcn, Ts )
         {
@@ -49,7 +49,7 @@ using namespace std;
 /*==============================================*/
 
 /*=============SETTER===========================*/
-    void Kalman_Filter_RK4::setPrecInput( Vector<> prec_input){
+    void Kalman_Filter_RK4::setPrecInput( const Vector<>& prec_input){
         rk4.setPrecInput(prec_input);
     }
 /*==============================================*/
@@ -58,7 +58,7 @@ using namespace std;
 /*========================================================*/
 
 /*=============RUNNER===========================*/
-	Vector<> Kalman_Filter_RK4::apply( Vector<> y_measure, Vector<> u_measure, Matrix<> W_k1, Matrix<> V_k1 ){
+	Vector<> Kalman_Filter_RK4::apply( const Vector<>& y_measure, const Vector<>& u_measure, const Matrix<>& W_k1, const Matrix<>& V_k1 ){
 
         rk4.estimateFutureInputs( u_measure );
         return Kalman_Filter::apply( y_measure, u_measure,  W_k1, V_k1 );
