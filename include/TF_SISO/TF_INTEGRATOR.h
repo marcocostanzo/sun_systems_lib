@@ -20,15 +20,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TF_INTEGTATOR_LIB
-#define TF_INTEGTATOR_LIB
+#ifndef TF_INTEGRATOR_LIB
+#define TF_INTEGRATOR_LIB
 
 #include "TF_SISO/TF_SISO.h"
 
-class TF_INTEGTATOR : public TF_SISO{
+class TF_INTEGRATOR : public TF_SISO{
 private:
 
-	TF_INTEGTATOR(); //NO DEFAULT CONSTRUCTOR
+	TF_INTEGRATOR(); //NO DEFAULT CONSTRUCTOR
 
 protected:
 
@@ -75,6 +75,6 @@ public:
 /*=============STATIC FUNS===========================*/
 /*==============================================*/
 
-using TF_INTEGTATOR_Ptr = std::unique_ptr<TF_INTEGTATOR>;
+using TF_INTEGRATOR_Ptr = std::unique_ptr<TF_INTEGRATOR>;
 
 #endif
