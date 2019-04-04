@@ -108,10 +108,16 @@ TF_SISO* TF_SISO::clone() const{
 /*=============RUNNER===========================*/
     double TF_SISO::apply( double u_k){
 
-        _u_vect.slice(1,_n) = _u_vect.slice(0,_n);
+        if(_n!=0){
+            Vector<> tmp_u_vect = _u_vect;
+            _u_vect.slice(1,_n) = tmp_u_vect.slice(0,_n);
+        }
         _u_vect[0] = u_k;
 
-        _y_vect.slice(1,_m-1) = _y_vect.slice(0,_m-1);
+        if(_m!=1){
+            Vector<> tmp_y_vect = _y_vect;
+            _y_vect.slice(1,_m-1) = tmp_y_vect.slice(0,_m-1);
+        }
         _y_vect[0] = _y_k;
 
         _y_k = (_b_vect * _u_vect) + (_a_vect * _y_vect);
