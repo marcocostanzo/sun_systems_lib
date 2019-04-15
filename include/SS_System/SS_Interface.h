@@ -42,7 +42,7 @@ SS_Interface(const TooN::Vector<>& initial_state, double Ts)
       _state(initial_state)
       {};
 
-SS_Interface(int order, double Ts) 
+SS_Interface(unsigned int order, double Ts) 
     : SS_Interface( TooN::Zeros(order), Ts )
       {};
 

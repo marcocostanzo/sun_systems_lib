@@ -23,17 +23,39 @@
 
 using namespace TooN;
 
-SS::SS(const SS_FCN& state_fcn, const SS_FCN& output_fcn, Vector<>& initial_state, double Ts) 
+SS::SS( unsigned int dim_input,
+        unsigned int dim_output, 
+        const SS_FCN& state_fcn, 
+        const SS_FCN& output_fcn, 
+        Vector<>& initial_state, 
+        double Ts) 
     : SS_Interface(initial_state, Ts),
       _state_fcn(state_fcn),
-      _output_fcn(output_fcn)
+      _output_fcn(output_fcn),
+      _dimInput(dim_input),
+      _dimOutput(dim_output)
       {}
 
-SS::SS(const SS_FCN& state_fcn, const SS_FCN& output_fcn, int order, double Ts) 
+SS::SS( unsigned int dim_input,
+        unsigned int dim_output,
+        const SS_FCN& state_fcn, 
+        const SS_FCN& output_fcn, 
+        unsigned int order, 
+        double Ts) 
     : SS_Interface(order, Ts),
       _state_fcn(state_fcn),
-      _output_fcn(output_fcn)
+      _output_fcn(output_fcn),
+      _dimInput(dim_input),
+      _dimOutput(dim_output)
       {}
+
+const unsigned int SS::getDimInput() const {
+    return _dimInput;
+}
+
+const unsigned int SS::getDimOutput() const {
+    return _dimOutput;
+}
 
 /*
     This function does not change/use the internal state of the object

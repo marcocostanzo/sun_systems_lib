@@ -39,13 +39,29 @@ protected:
 SS_FCN _state_fcn;
 SS_FCN _output_fcn;
 
+unsigned int _dimInput;
+unsigned int _dimOutput;
+
 public:
     
 virtual ~SS() = default;
 
-SS(const SS_FCN& state_fcn, const SS_FCN& output_fcn, TooN::Vector<>& initial_state, double Ts);
+SS( unsigned int dim_input,
+    unsigned int dim_output,
+    const SS_FCN& state_fcn, 
+    const SS_FCN& output_fcn, 
+    TooN::Vector<>& initial_state, 
+    double Ts);
 
-SS(const SS_FCN& state_fcn, const SS_FCN& output_fcn, int order, double Ts);
+SS( unsigned int dim_input,
+    unsigned int dim_output,
+    const SS_FCN& state_fcn, 
+    const SS_FCN& output_fcn, 
+    unsigned int order, 
+    double Ts);
+
+virtual const unsigned int getDimInput() const override;
+virtual const unsigned int getDimOutput() const override;
 
 /*
     This function does not change/use the internal state of the object

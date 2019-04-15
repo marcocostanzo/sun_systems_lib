@@ -84,6 +84,8 @@ virtual const TooN::Matrix<>& getB() const;
 virtual const TooN::Matrix<>& getC() const;
 virtual const TooN::Matrix<>& getD() const;
 virtual const TooN::Vector<>& getState() const;
+virtual const unsigned int getDimInput() const override;
+virtual const unsigned int getDimOutput() const override;
 /*==============================================*/
 
 /*=============SETTER===========================*/

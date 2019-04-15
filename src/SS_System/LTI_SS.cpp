@@ -151,6 +151,16 @@ const Vector<>& LTI_SS::getState() const
     return _state;
 }
 
+const unsigned int LTI_SS::getDimInput() const 
+{
+    return _B.num_cols();
+}
+
+const unsigned int LTI_SS::getDimOutput() const
+{
+    return _C.num_rows();
+}
+
 /*==============================================*/
 
 /*=============SETTER===========================*/

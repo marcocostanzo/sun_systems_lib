@@ -51,6 +51,16 @@ public:
 
     virtual double getTs(){return _Ts;}
 
+virtual const unsigned int getDimInput() const {
+    std::cout << WARNCOLOR "WARNING! getDimInput() not implemented for derived of Generic_System" CRESET << std::endl;
+    exit(-1);
+}
+
+virtual const unsigned int getDimOutput() const {
+    std::cout << WARNCOLOR "WARNING! getDimInput() not implemented for derived of Generic_System" CRESET << std::endl;
+    exit(-1);
+}
+
     virtual void display(){
         std::cout << WARNCOLOR "WARNING! disp() not implemented for derived of Generic_System" CRESET << std::endl;
     }
