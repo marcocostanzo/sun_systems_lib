@@ -20,14 +20,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LTI_SS_LIB
-#define LTI_SS_LIB
+#ifndef LTI_SS_H
+#define LTI_SS_H
 
 #include "SS_System/SS_Interface.h"
 #include "Linear_System.h"
 
 class LTI_SS : public SS_Interface, public Linear_System {
 private:
+
+LTI_SS( );
 
 protected:
 

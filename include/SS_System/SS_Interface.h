@@ -37,7 +37,7 @@ TooN::Vector<> _state;
     
 virtual ~SS_Interface() = default;
 
-SS_Interface(TooN::Vector<> initial_state, double Ts) 
+SS_Interface(const TooN::Vector<>& initial_state, double Ts) 
     : Generic_System(Ts),
       _state(initial_state)
       {};
@@ -89,6 +89,11 @@ virtual TooN::Vector<> apply( const TooN::Vector<>& input ) override
 
     return output_f( _state, input );
 
+}
+
+virtual void reset() override
+{
+    _state = TooN::Zeros;
 }
 
 virtual void display() override
