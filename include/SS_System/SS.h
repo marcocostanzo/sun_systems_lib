@@ -60,6 +60,11 @@ SS( unsigned int dim_input,
     unsigned int order, 
     double Ts);
 
+/*
+    Clone the object
+*/
+virtual SS* clone() const;
+
 virtual const unsigned int getDimInput() const override;
 virtual const unsigned int getDimOutput() const override;
 

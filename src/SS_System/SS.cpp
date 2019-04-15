@@ -49,6 +49,14 @@ SS::SS( unsigned int dim_input,
       _dimOutput(dim_output)
       {}
 
+/*
+    Clone the object
+*/
+SS* SS::clone() const
+{
+    return new SS(*this);
+}
+
 const unsigned int SS::getDimInput() const {
     return _dimInput;
 }

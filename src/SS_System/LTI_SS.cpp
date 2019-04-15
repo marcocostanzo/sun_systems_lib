@@ -34,7 +34,6 @@ LTI_SS::LTI_SS(
         const Vector<>& initial_state,
         double Ts )
         :SS_Interface(initial_state, Ts),
-        Linear_System(Ts),
         _A(A),
         _B(B),
         _C(C),
@@ -118,6 +117,14 @@ LTI_SS::LTI_SS(
                 Zeros( A.num_rows() ),
                 -1 )
             {}
+
+/*
+    Clone the object
+*/
+LTI_SS* LTI_SS::clone() const
+{
+    return new LTI_SS(*this);
+}
 
 /*==============================================*/
 

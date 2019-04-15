@@ -37,6 +37,11 @@ class Linear_System : public Generic_System {
 
     Linear_System( const Linear_System& sys ) = default;
 
+    /*
+            Clone the object
+    */
+    virtual Linear_System* clone() const = 0;
+
 };
 
 using Linear_System_Ptr = std::unique_ptr<Linear_System>;

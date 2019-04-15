@@ -34,8 +34,6 @@ protected:
 
 //State
 TooN::Vector<> _state;
-    
-virtual ~SS_Interface() = default;
 
 SS_Interface(const TooN::Vector<>& initial_state, double Ts) 
     : Generic_System(Ts),
@@ -47,6 +45,13 @@ SS_Interface(unsigned int order, double Ts)
       {};
 
 public:
+
+virtual ~SS_Interface() = default;
+
+/*
+    Clone the object
+*/
+virtual SS_Interface* clone() const = 0;
 
 virtual const unsigned int getOrder() const 
 {

@@ -24,9 +24,8 @@
 #define LTI_SS_H
 
 #include "SS_System/SS_Interface.h"
-#include "Linear_System.h"
 
-class LTI_SS : public SS_Interface, public Linear_System {
+class LTI_SS : public SS_Interface {
 private:
 
 LTI_SS( );
@@ -72,6 +71,11 @@ LTI_SS( const TooN::Matrix<>& A,
         const TooN::Matrix<>& C );
 
 LTI_SS(const LTI_SS& tf) = default;
+
+/*
+    Clone the object
+*/
+virtual LTI_SS* clone() const;
 /*==============================================*/
 
 /*===============DESTRUCTOR===================*/	
