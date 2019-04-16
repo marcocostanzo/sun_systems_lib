@@ -47,6 +47,10 @@ Standard_Observer(
     TooN::Matrix<>& L,
     int order);
 
+Standard_Observer( const Standard_Observer& obs ) = default;
+
+virtual Standard_Observer* clone() const override;
+
 virtual ~Standard_Observer() = default;
 
 /*

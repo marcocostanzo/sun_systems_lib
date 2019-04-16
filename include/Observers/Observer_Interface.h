@@ -44,7 +44,13 @@ Observer_Interface(const SS_Interface& model, int order)
     _model(model.clone())
     {}
 
+Observer_Interface( const Observer_Interface& obs )
+    :SS_Interface(obs._state, obs._model->getTs() ),
+    _model(obs._model->clone()) {}
+
 public:
+
+virtual Observer_Interface* clone() const override = 0;
 
 virtual ~Observer_Interface() = default;
 

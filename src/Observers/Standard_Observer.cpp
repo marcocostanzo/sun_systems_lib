@@ -52,6 +52,11 @@ Standard_Observer::Standard_Observer(
     )
     {}
 
+Standard_Observer* Standard_Observer::clone() const
+{
+    return new Standard_Observer(*this);
+}
+
 /*
     This function does not change/use the internal state of the object
     It evaluates the next state given the previous state, the current input and the current measure
