@@ -26,7 +26,7 @@ using namespace std;
 
 Standard_Observer::Standard_Observer( 
     const SS_Interface& model,
-    Matrix<>& L,
+    const Matrix<>& L,
     const Vector<>& initial_state
     )
     :Observer_Interface(
@@ -43,7 +43,7 @@ Standard_Observer::Standard_Observer(
 
 Standard_Observer::Standard_Observer(
     const SS_Interface& model,
-    Matrix<>& L,
+    const Matrix<>& L,
     int order) 
     :Standard_Observer(
         model,

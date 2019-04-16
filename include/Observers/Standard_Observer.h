@@ -38,13 +38,13 @@ public:
 
 Standard_Observer( 
     const SS_Interface& model,
-    TooN::Matrix<>& L,
+    const TooN::Matrix<>& L,
     const TooN::Vector<>& initial_state
     );
 
 Standard_Observer(
     const SS_Interface& model,
-    TooN::Matrix<>& L,
+    const TooN::Matrix<>& L,
     int order);
 
 Standard_Observer( const Standard_Observer& obs ) = default;
