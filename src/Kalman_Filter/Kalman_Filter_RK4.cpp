@@ -60,8 +60,10 @@ using namespace std;
 /*=============RUNNER===========================*/
 	Vector<> Kalman_Filter_RK4::apply( const Vector<>& y_measure, const Vector<>& u_measure, const Matrix<>& W_k1, const Matrix<>& V_k1 ){
 
-        rk4.estimateFutureInputs( u_measure );
-        return Kalman_Filter::apply( y_measure, u_measure,  W_k1, V_k1 );
+        rk4.estimateMeanInputs( u_measure );
+        Vector<> out = Kalman_Filter::apply( y_measure, u_measure,  W_k1, V_k1 );
+        rk4.setPrecInput( u_measure );
+        return out;
         
     }
 /*==============================================*/

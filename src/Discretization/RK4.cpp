@@ -50,10 +50,7 @@ using namespace std;
         jac_k3(Zeros(_size_state,_size_state)),
         jac_k4(Zeros(_size_state,_size_state)),
         jac_n(Zeros(_size_state,_size_state)),
-        internal_u_n(Zeros(_size_input)),
-        M(Zeros(_size_input)),
-        u_n12(Zeros(_size_input)),
-        u_n1(Zeros(_size_input))
+        u_n_12(Zeros(_size_input))
         {
 
             cout << WARNCOLOR "[RK4] in this version: Using ZOH in estimateFutureInputs()!" CRESET << endl;
@@ -91,10 +88,10 @@ using namespace std;
 
     Vector<> RK4::apply_rk4( const Vector<>& x_n_1, const Vector<>& u_n ){
 
-        k1 = _ff( x_n_1 , u_n );
-        k2 = _ff( x_n_1 + Ts_2*k1 , u_n12 );
-        k3 = _ff( x_n_1 + Ts_2*k2 , u_n12 );
-        k4 = _ff( x_n_1 + _Ts*k3 , u_n1 );
+        k1 = _ff( x_n_1 , u_n_1 );
+        k2 = _ff( x_n_1 + Ts_2*k1 , u_n_12 );
+        k3 = _ff( x_n_1 + Ts_2*k2 , u_n_12 );
+        k4 = _ff( x_n_1 + _Ts*k3 , u_n );
 
         x_n = x_n_1 + Ts_6 * ( k1 + 2.0*k2 + 2.0*k3 + k4 );
 
@@ -104,14 +101,14 @@ using namespace std;
 
     Matrix<> RK4::apply_rk4_jac( const Vector<>& x_n_1, const Vector<>& u_n ){
 
-        k1 = _ff( x_n_1 , u_n );
-        k2 = _ff( x_n_1 + Ts_2*k1 , u_n12 );
-        k3 = _ff( x_n_1 + Ts_2*k2 , u_n12 );
+        k1 = _ff( x_n_1 , u_n_1 );
+        k2 = _ff( x_n_1 + Ts_2*k1 , u_n_12 );
+        k3 = _ff( x_n_1 + Ts_2*k2 , u_n_12 );
 
-        jac_k1 = _FF( x_n_1 , u_n );
-        jac_k2 = _FF( x_n_1 + Ts_2*k1 , u_n12 ) * ( I + Ts_2 * jac_k1 );
-        jac_k3 = _FF( x_n_1 + Ts_2*k2 , u_n12 ) * ( I + Ts_2 * jac_k2 );
-        jac_k4 = _FF( x_n_1 + _Ts*k3 , u_n1 ) * ( I + _Ts * jac_k3 );
+        jac_k1 = _FF( x_n_1 , u_n_1 );
+        jac_k2 = _FF( x_n_1 + Ts_2*k1 , u_n_12 ) * ( I + Ts_2 * jac_k1 );
+        jac_k3 = _FF( x_n_1 + Ts_2*k2 , u_n_12 ) * ( I + Ts_2 * jac_k2 );
+        jac_k4 = _FF( x_n_1 + _Ts*k3 , u_n ) * ( I + _Ts * jac_k3 );
 
         jac_n = I + Ts_6 * ( jac_k1 + 2.0*jac_k2 + 2.0*jac_k3 + jac_k4 );
 
@@ -119,21 +116,11 @@ using namespace std;
 
     }
 
-    void RK4::estimateFutureInputs(const Vector<>& u_n){
+    void RK4::estimateMeanInputs(const Vector<>& u_n){
 
         //WARN! this method is a ZOH, you must comment some lines to implement 1^ order interpolation
 
-        if(_b_use_zoh){
-            u_n_1 = u_n;
-            internal_u_n = u_n;
-        }
-
-        u_n_1 = internal_u_n;
-        internal_u_n = u_n;
-
-        M = (internal_u_n - u_n_1)/_Ts;
-        u_n12 = M*Ts_2 + internal_u_n;
-        u_n1 = M*_Ts + internal_u_n;
+        u_n_12 = (u_n - u_n_1)/2.0;
 
     }
 

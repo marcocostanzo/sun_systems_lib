@@ -62,7 +62,7 @@ private:
     TooN::Matrix<> I;
     TooN::Vector<> k1, k2, k3, k4, x_n;
     TooN::Matrix<> jac_k1, jac_k2, jac_k3, jac_k4, jac_n;
-    TooN::Vector<> internal_u_n, M, u_n12, u_n1;
+    TooN::Vector<> u_n_12;
 
 
     /*Private fun*/
@@ -95,7 +95,7 @@ public:
 /*=============RUNNER===========================*/
     TooN::Vector<> apply_rk4( const TooN::Vector<>& x_n_1, const TooN::Vector<>& u_n );
     TooN::Matrix<> apply_rk4_jac( const TooN::Vector<>& x_n_1, const TooN::Vector<>& __un );
-    void estimateFutureInputs(const TooN::Vector<>& u_n);
+    void estimateMeanInputs(const TooN::Vector<>& u_n);
 /*==============================================*/
 
 /*=============VARIE===========================*/
