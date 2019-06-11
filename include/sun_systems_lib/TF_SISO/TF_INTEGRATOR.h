@@ -50,7 +50,7 @@ virtual ~TF_INTEGRATOR() override = default;
 /*
     Clone the object
 */
-virtual TF_INTEGRATOR* clone() const
+virtual TF_INTEGRATOR* clone() const override
 {
     return new TF_INTEGRATOR(*this);
 }
@@ -62,7 +62,7 @@ TF_INTEGRATOR( const TF_INTEGRATOR& tf ) = default;
 /*==============================================*/
 
 /*=============SETTER===========================*/
-inline virtual void setTs(double Ts)
+inline virtual void setTs(double Ts) override
 {
     throw "[TF_INTEGRATOR::setTs] Cannot set Ts on TF_INTEGRATOR";
 }
@@ -84,9 +84,10 @@ inline virtual void setOutput(double output)
 /*==============================================*/
 
 /*=============RUNNER===========================*/
-virtual double apply( double uk)
+inline virtual double apply( double uk) override
 {
-    return gain_*TF_SISO::apply( uk );
+    y_k_[0] = gain_*TF_SISO::apply( uk );
+    return y_k_[0];
 }
 /*==============================================*/
 
