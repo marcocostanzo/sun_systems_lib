@@ -36,9 +36,9 @@ virtual Linear_System* clone() const = 0;
 
 virtual ~Linear_System() override = default;
 
-inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) = 0;
+virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) = 0;
 
-inline virtual void reset() = 0;
+virtual void reset() = 0;
 
 virtual void display() const override
 {

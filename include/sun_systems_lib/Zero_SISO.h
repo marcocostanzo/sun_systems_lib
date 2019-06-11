@@ -1,5 +1,5 @@
 /*
-    SISO_System Class
+    Zero_SISO Class
 
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
@@ -19,36 +19,50 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SISO_SYSTEM_H
-#define SISO_SYSTEM_H
+#ifndef ZERO_SISO_H
+#define ZERO_SISO_H
 
-#include "sun_systems_lib/System_Interface.h"
+#include "sun_systems_lib/SISO_System.h"
 
-class SISO_System : public System_Interface 
+class Zero_SISO : public SISO_System 
 {
 private:
 
 protected:
 
+TooN::Vector<> zero_v_ = TooN::makeVector(0.0);
+
 public:
 
-virtual SISO_System* clone() const = 0;
+Zero_SISO(){}
 
-virtual ~SISO_System() override = default;
+virtual Zero_SISO* clone() const override
+{
+    return new Zero_SISO(*this);
+}
 
-virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) = 0;
+virtual ~Zero_SISO() override = default;
 
-virtual double apply( double input ) = 0;
+inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
+{
+    return zero_v_;
+}
 
-virtual void reset() = 0;
+inline virtual double apply( double input ) override
+{
+    return 0.0;
+}
+
+inline virtual void reset() override {}
 
 virtual void display() const override
 {
-    std::cout << BOLDYELLOW "WARNING! display() not implemented for SISO_System" CRESET << std::endl;
+    std::cout <<
+    "Zero_SISO" << std::endl;
 }
 
 };
 
-using SISO_System_Ptr = std::unique_ptr<SISO_System>;
+using Zero_SISO_Ptr = std::unique_ptr<Zero_SISO>;
 
 #endif
