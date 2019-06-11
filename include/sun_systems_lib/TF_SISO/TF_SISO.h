@@ -121,7 +121,7 @@ public:
 //Full
 TF_SISO(    const TooN::Vector<>& num_coeff, 
             const TooN::Vector<>& den_coeff, 
-            double Ts
+            double Ts = NAN
         )
 :ts_(Ts),
 b_vec_( simplifyNumerator(num_coeff, den_coeff) ),
@@ -135,25 +135,12 @@ y_vec_( TooN::Zeros( a_vec_.size() ) )
     }
 }
 
-TF_SISO(    const TooN::Vector<>& num_coeff, 
-            const TooN::Vector<>& den_coeff
-       )
-:TF_SISO(   num_coeff, 
-            den_coeff, 
-            NAN
-        )
-{}
-
 //TF_SISO_ZERO Constructors
 TF_SISO(double Ts)
 :TF_SISO(   TooN::makeVector(0.0), 
             TooN::makeVector(1.0), 
-            Ts
+            Ts = NAN
         )
-{}
-
-TF_SISO()
-:TF_SISO(NAN)
 {}
 
 TF_SISO(const TF_SISO& tf) = default;
@@ -254,13 +241,14 @@ inline virtual void reset() override
 
 virtual void display() const override
 {
-    std::cout << "TF_SISO:" << std::endl <<
-    "Num_Coeff= " << b_vec_ << std::endl <<
-    "Den_Coeff= 1.0 " << a_vec_ << std::endl <<
-    "State" << std::endl <<
-    "u_vec= " << u_vec_ << std::endl <<
-    "y_vec= " << y_vec_ << std::endl <<
-    "y_k= " << y_k_ << std::endl; 
+    std::cout << 
+    "TF_SISO:" << std::endl <<
+    "   Num_Coeff= " << b_vec_ << std::endl <<
+    "   Den_Coeff= 1.0 " << a_vec_ << std::endl <<
+    "   State" << std::endl <<
+    "   u_vec= " << u_vec_ << std::endl <<
+    "   y_vec= " << y_vec_ << std::endl <<
+    "   y_k= " << y_k_ << std::endl; 
 }
 /*==============================================*/
 

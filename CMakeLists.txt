@@ -125,7 +125,7 @@ include_directories(
 
 
 add_library(${PROJECT_NAME}
-    include/${PROJECT_NAME}/TF_SISO/TF_SISO.cpp
+    include/${PROJECT_NAME}/TF_SISO/TF_INTEGRATOR.cpp
 )
 
 ## Add cmake target dependencies of the library
