@@ -125,15 +125,7 @@ include_directories(
 
 
 add_library(${PROJECT_NAME}
-    src/TF_SISO/TF_SISO.cpp
-    src/TF_SISO/TF_FIRST_ORDER_FILTER.cpp
-    src/TF_SISO/TF_INTEGRATOR.cpp
-    src/TF_MIMO/TF_MIMO.cpp
-    src/TF_MIMO/TF_MIMO_DIAGONAL.cpp
-    src/SS_System/SS_System.cpp
-    src/Discretization/RK4.cpp
-    src/Kalman_Filter/Kalman_Filter.cpp
-    src/Kalman_Filter/Kalman_Filter_RK4.cpp
+    include/${PROJECT_NAME}/TF_SISO/TF_SISO.cpp
 )
 
 ## Add cmake target dependencies of the library
