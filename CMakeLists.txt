@@ -128,6 +128,7 @@ add_library(${PROJECT_NAME}
     #include/${PROJECT_NAME}/TF_SISO/TF_INTEGRATOR.cpp
     #include/${PROJECT_NAME}/TF_SISO/TF_FIRST_ORDER_FILTER.cpp
     include/${PROJECT_NAME}/MIMO/MIMO_Diagonal.cpp
+    include/${PROJECT_NAME}/SS/SS_Linear.cpp
 )
 
 ## Add cmake target dependencies of the library

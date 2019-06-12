@@ -84,7 +84,7 @@ virtual void setSISO( unsigned int index_row, unsigned int index_col, const SISO
 
 //////////////////////////////////
 
-virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
+inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
 {
     y_k_ = TooN::Zeros;
     int dim_output = siso_vect_.size()/dim_input_;
@@ -98,7 +98,7 @@ virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
     return y_k_;
 }
 
-virtual void reset() override
+inline virtual void reset() override
 {
     y_k_ = TooN::Zeros;
     for( auto& siso: siso_vect_ )
