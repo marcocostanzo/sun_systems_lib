@@ -29,6 +29,8 @@ class MIMO_Matrix : public System_Interface
 
 private:
 
+MIMO_Matrix();
+
 protected:
 
 std::vector<SISO_System_Ptr> siso_vect_;
@@ -65,7 +67,7 @@ virtual MIMO_Matrix* clone() const override
     return new MIMO_Matrix(*this);
 }
 
-virtual ~MIMO_Matrix() = default;
+virtual ~MIMO_Matrix() override = default;
 
 ///////////////////////////////////
 

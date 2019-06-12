@@ -127,7 +127,7 @@ include_directories(
 add_library(${PROJECT_NAME}
     #include/${PROJECT_NAME}/TF_SISO/TF_INTEGRATOR.cpp
     #include/${PROJECT_NAME}/TF_SISO/TF_FIRST_ORDER_FILTER.cpp
-    include/${PROJECT_NAME}/MIMO/MIMO_Matrix.cpp
+    include/${PROJECT_NAME}/MIMO/MIMO_Diagonal.cpp
 )
 
 ## Add cmake target dependencies of the library
