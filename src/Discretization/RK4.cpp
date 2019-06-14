@@ -117,11 +117,7 @@ using namespace std;
     }
 
     void RK4::estimateMeanInputs(const Vector<>& u_n){
-
-        //WARN! this method is a ZOH, you must comment some lines to implement 1^ order interpolation
-
-        u_n_12 = (u_n - u_n_1)/2.0;
-
+        u_n_12 = (u_n + u_n_1)/2.0;
     }
 
 /*==============================================*/
