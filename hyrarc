@@ -1,0 +1,16 @@
+discrete_system_interface                                                                                                       continous_ss_system_interface
+    |-----------------|------------------|                                                                                           |                  |
+    v                 V                  V                                                                                           V                  V
+siso_systemI | linear_systemI   | state_space_systemI                                                                        continous_ss_systemB    continous_observer_I
+   |               |  |  |             |        |   |                                                                                                   |            |   
+   ----------------   |  ---------------        V   \---------------|                                                                                   V            \-V   
+        |             |              |     state_space_systemB      |-------------------------------|                                 Continuous_Luenberger_Observer   Continuous_Kalman_Filter                 
+        v             V              V                              V                               V
+     TF_SISO      TF_MIMO(TF_SISO)   SS_Linear              Observer_Interface                  Discretizator_interface      
+        |              |                                     |              |                                 |
+        v              v                                     V              V                                 V
+  ---------------   TF_MIMO_DIAGONAL         Discrete_Luenberger_Observer  Discrete_Kalman_Filter             RK    
+  |             |                                                                                          |---|--------|
+  V             v                                                                                          V   V        V
+TF_1_FILTER  TF_INTEGRATOR                                                                               RK4  EUL_F   EUK_I
+                  

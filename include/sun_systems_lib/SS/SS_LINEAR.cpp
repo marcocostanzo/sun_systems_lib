@@ -22,27 +22,23 @@
 #ifndef SS_LINEAR_H
 #define SS_LINEAR_H
 
-#include <sun_systems_lib/SS/SS_Interface.h>
-#include <sun_systems_lib/Linear_System.h>
+#include <sun_systems_lib/SS/SS_Interface.cpp>
+#include <sun_systems_lib/Linear_System_Interface.cpp>
 
-class SS_Linear : public SS_Interface, public Linear_System
+class SS_LINEAR : public SS_Interface, public Linear_System_Interface
 {
 
 private:
 
-SS_Linear();
+SS_LINEAR();
 
 protected:
 
 TooN::Matrix<> A_, B_, C_, D_;
-TooN::Vector<> state_;
-
-TooN::Vector<> tmp_state_;
-TooN::Vector<> tmp_output_;
 
 public:
 
-SS_Linear(  const TooN::Matrix<>& A, 
+SS_LINEAR(  const TooN::Matrix<>& A, 
             const TooN::Matrix<>& B, 
             const TooN::Matrix<>& C, 
             const TooN::Matrix<>& D 
@@ -51,64 +47,71 @@ SS_Linear(  const TooN::Matrix<>& A,
 B_(B),
 C_(C),
 D_(D),
-state_( TooN::Zeros(A.num_rows()) ),
-tmp_state_( TooN::Zeros(A.num_rows()) ),
-tmp_output_( TooN::Zeros(C.num_rows()) )
+SS_Interface( TooN::Zeros(A.num_rows()), TooN::Zeros(C.num_rows()) )
 {
     if(!chek_dimensions())
     {
-        throw std::invalid_argument( "[SS_Linear] Invalid matrix dimensions" );
+        throw std::invalid_argument( "[SS_LINEAR] Invalid matrix dimensions" );
     }
 }
 
-SS_Linear(const SS_Linear& ss) = default;
+SS_LINEAR(const SS_LINEAR& ss) = default;
 
-virtual SS_Linear* clone() const
+virtual SS_LINEAR* clone() const override
 {
-    return new SS_Linear(*this);
+    return new SS_LINEAR(*this);
 }
 
-virtual ~SS_Linear() = default;
+virtual ~SS_LINEAR() override = default;
 
 /////////////////////////////////////////
 
-inline virtual const TooN::Vector<>& get_state() const override
+virtual const unsigned int getSizeInput() const override
 {
-    return state_;
+    return B_.num_cols();
+}
+
+virtual const unsigned int getSizeOutput() const override
+{
+    return C_.num_rows();
 }
 
 ////////////////////////////////////////
 
-inline virtual const TooN::Vector<>& state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) override
+inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 {
-    tmp_state_ = A_*x_k_1 + B_*u_k;
-    return tmp_state_;
+    return A_*x_k_1 + B_*u_k;
 }
 
-inline virtual const TooN::Vector<>& output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) override
+inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 {
-    tmp_output_ = C_*x_k + D_*u_k;
-    return tmp_output_;
+    return C_*x_k + D_*u_k;
+}
+
+inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
+{
+    return A_;
+}
+
+inline virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+{
+    return C_;
 }
 
 inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
 {
-    state_ = A_*state_ + B_*input;
-    tmp_output_ = C_*state_ + D_*input;
-    return tmp_output_;
+    return SS_Interface::apply(input);
 }
 
 virtual void reset() override
 {
-    state_ = TooN::Zeros;
-    tmp_state_ = TooN::Zeros;
-    tmp_output_ = TooN::Zeros;
+    return SS_Interface::reset();
 }
 
-virtual void display() const
+virtual void display() const override
 {
     std::cout <<
-    "SS_Linear:" << std::endl <<
+    "SS_LINEAR:" << std::endl <<
     "A:" << std::endl <<
     A_ << std::endl <<
     "B:" << std::endl <<
@@ -118,7 +121,7 @@ virtual void display() const
     "D:" << std::endl <<
     D_ << std::endl <<
     "state: " << state_ << std::endl <<
-    "SS_Linear [END]" << std::endl;
+    "SS_LINEAR [END]" << std::endl;
 }
 
 virtual bool chek_dimensions()
@@ -137,9 +140,7 @@ virtual bool chek_dimensions()
 
     if(state_.size() != A_.num_rows())
         return false;
-    if(tmp_state_.size() != state_.size())
-        return false;
-    if(tmp_output_.size() != C_.num_rows())
+    if(output_.size() != C_.num_rows())
         return false;
 
     return true;
@@ -147,6 +148,6 @@ virtual bool chek_dimensions()
 
 };
 
-using SS_Linear_Ptr = std::unique_ptr<SS_Linear>;
+using SS_LINEAR_Ptr = std::unique_ptr<SS_LINEAR>;
 
 #endif

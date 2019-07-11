@@ -23,8 +23,8 @@
 #ifndef TF_SISO_LIB
 #define TF_SISO_LIB
 
-#include "sun_systems_lib/SISO_System.h"
-#include "sun_systems_lib/Linear_System.h"
+#include "sun_systems_lib/SISO_System_Interface.cpp"
+#include "sun_systems_lib/Linear_System_Interface.cpp"
 
 /*
          b0 + b1*z-1 + b2*z-2 + ... + bn*z-n
@@ -47,12 +47,13 @@
 
 */
 
-class TF_SISO : public Linear_System, public SISO_System
+class TF_SISO : public Linear_System_Interface, public SISO_System_Interface
 {
 
 public:
 //STATIC
 
+// This function transform [b0 b1 ... bn 0 0 ... 0]T in b_vec=[b0 b1 ... bn]T / a0
 inline static TooN::Vector<> simplifyNumerator(const TooN::Vector<>& num_coeff, const TooN::Vector<>& den_coeff)
 {
     if(den_coeff[0] == 0)
@@ -71,23 +72,19 @@ inline static TooN::Vector<> simplifyNumerator(const TooN::Vector<>& num_coeff, 
     {
         if(num_coeff[effective_size-1] != 0.0)
             break;
-        effective_size --;
+        effective_size--;
     }
 
     return num_coeff.slice(0,effective_size)/den_coeff[0];
 
 }
 
+// This function transform [a0 a1 ... am 0 0 ... 0]T in a_vec=[a1 a2 ... am]T / a0
 inline static TooN::Vector<> simplifyAndReduceDenominator(const TooN::Vector<>& den_coeff)
 {
     if(den_coeff[0] == 0)
     {
         throw std::domain_error("[TF_SISO::simplifyAndReduceDenominator] Division by 0");
-    }
-
-    if(den_coeff.size() == 1)
-    {
-        return TooN::Vector<>(0); //return a void vector
     }
 
     //find first nonzero coeff
@@ -99,6 +96,11 @@ inline static TooN::Vector<> simplifyAndReduceDenominator(const TooN::Vector<>& 
         effective_size --;
     }
 
+    if(effective_size == 1)
+    {
+        return TooN::Vector<>(0); //return a void vector
+    }
+
     return den_coeff.slice(1,effective_size-1) / den_coeff[0];
 }
 
@@ -106,7 +108,7 @@ private:
 
 protected:
 
-double ts_; //sampling time
+double ts_; //sampling time, this is just a here to be stored, not used
 
 TooN::Vector<> b_vec_; //n+1
 TooN::Vector<> a_vec_; //m
@@ -135,11 +137,11 @@ y_vec_( TooN::Zeros( a_vec_.size() ) )
     }
 }
 
-//TF_SISO_ZERO Constructors
-TF_SISO(double Ts)
+//TF_SISO_ZERO Constructor
+TF_SISO(double Ts = NAN)
 :TF_SISO(   TooN::makeVector(0.0), 
             TooN::makeVector(1.0), 
-            Ts = NAN
+            Ts
         )
 {}
 
@@ -237,6 +239,16 @@ inline virtual void reset() override
     if(y_vec_.size()!=0)
         y_vec_ = TooN::Zeros;
     y_k_ = TooN::Zeros;
+}
+
+virtual const unsigned int getSizeInput() const override
+{
+    return 1;
+}
+
+virtual const unsigned int getSizeOutput() const override
+{
+    return 1;
 }
 
 virtual void display() const override

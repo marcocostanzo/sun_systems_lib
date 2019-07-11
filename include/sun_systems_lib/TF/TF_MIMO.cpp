@@ -1,5 +1,5 @@
 /*
-    MIMO Matrix Class
+    TF_MIMO Class, a matrix of TF_SISO
 
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
@@ -19,21 +19,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MIMO_MATRIX_H
-#define MIMO_MATRIX_H
+#ifndef MIMO_MIMO_H
+#define MIMO_MIMO_H
 
-#include <sun_systems_lib/Zero_SISO.h>
+#include <sun_systems_lib/Linear_System_Interface.cpp>
+#include <sun_systems_lib/TF/TF_SISO.cpp>
 
-class MIMO_Matrix : public System_Interface
+class TF_MIMO : public Linear_System_Interface
 {
 
 private:
 
-MIMO_Matrix();
+TF_MIMO();
 
 protected:
 
-std::vector<SISO_System_Ptr> siso_vect_;
+std::vector<TF_SISO_Ptr> siso_vect_;
 
 unsigned int dim_input_;
 
@@ -41,44 +42,44 @@ TooN::Vector<> y_k_;
 
 public:
 
-MIMO_Matrix( unsigned int dim_input, unsigned int dim_output )
+TF_MIMO( unsigned int dim_input, unsigned int dim_output )
 :dim_input_(dim_input),
 y_k_( TooN::Zeros(dim_output) )
 {
-    int num_siso = dim_input * dim_output;
+    int num_siso = dim_input_ * dim_output;
     for(int i=0; i<num_siso; i++)
     {
-        siso_vect_.push_back( SISO_System_Ptr( new Zero_SISO() ) );
+        siso_vect_.push_back( TF_SISO_Ptr( new TF_SISO() ) );
     }
 }
 
-MIMO_Matrix( const MIMO_Matrix& mimo )
-:y_k_(mimo.siso_vect_.size()/mimo.dim_input_)
+TF_MIMO( const TF_MIMO& mimo )
+:y_k_( TooN::Zeros( mimo.getSizeOutput() ) )
 {
     dim_input_ = mimo.dim_input_;
     for( const auto& siso : mimo.siso_vect_ )
     {
-        siso_vect_.push_back( SISO_System_Ptr( siso->clone() ) );
+        siso_vect_.push_back( TF_SISO_Ptr( siso->clone() ) );
     }
 }
 
-virtual MIMO_Matrix* clone() const override
+virtual TF_MIMO* clone() const override
 {
-    return new MIMO_Matrix(*this);
+    return new TF_MIMO(*this);
 }
 
-virtual ~MIMO_Matrix() override = default;
+virtual ~TF_MIMO() override = default;
 
 ///////////////////////////////////
 
-virtual void setSISO( unsigned int index_row, unsigned int index_col, const SISO_System& siso )
+virtual void setSISO( unsigned int index_row, unsigned int index_col, const TF_SISO& siso )
 {
-    if( index_row > (siso_vect_.size()/dim_input_) || index_col > dim_input_ )
+    if( index_row > getSizeOutput() || index_col > dim_input_ )
     {
-        throw std::out_of_range( "[MIMO_Matrix::setSISO] Index out of range" );
+        throw std::out_of_range( "[TF_MIMO::setSISO] Index out of range" );
     }
 
-    siso_vect_[ index_row*dim_input_ + index_col ] = SISO_System_Ptr( siso.clone() );
+    siso_vect_[ index_row*dim_input_ + index_col ] = TF_SISO_Ptr( siso.clone() );
 
 }
 
@@ -87,7 +88,7 @@ virtual void setSISO( unsigned int index_row, unsigned int index_col, const SISO
 inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
 {
     y_k_ = TooN::Zeros;
-    int dim_output = siso_vect_.size()/dim_input_;
+    int dim_output = getSizeOutput();
     for(int i = 0; i < dim_output ; i++)
     {
         for(int j = 0; j < dim_input_; j++ )
@@ -107,12 +108,22 @@ inline virtual void reset() override
     }
 }
 
-virtual void display() const
+virtual const unsigned int getSizeInput() const override
 {
-    int dim_output = siso_vect_.size()/dim_input_;
+    return dim_input_;
+}
+
+virtual const unsigned int getSizeOutput() const override
+{
+    return siso_vect_.size()/dim_input_;
+}
+
+virtual void display() const override
+{
+    int dim_output = getSizeOutput();
     std::stringstream str;
     str <<
-    "MIMO_Matrix " << dim_output << "x" << dim_input_ << ":" << std::endl;
+    "TF_MIMO " << dim_output << "x" << dim_input_ << ":" << std::endl;
 
     for(int i = 0; i < dim_output ; i++)
     {
@@ -124,13 +135,13 @@ virtual void display() const
         }
     }
 
-    str << "MIMO_Matrix [END]" << std::endl;
+    str << "TF_MIMO [END]" << std::endl;
 
     std::cout << str.str();
 }
 
 };
 
-using MIMO_Matrix_Ptr = std::unique_ptr<MIMO_Matrix>;
+using TF_MIMO_Ptr = std::unique_ptr<TF_MIMO>;
 
 #endif

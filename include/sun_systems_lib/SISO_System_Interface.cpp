@@ -1,5 +1,5 @@
 /*
-    Zero_SISO Class
+    SISO_System_Interface Class, Interface for Discrete single-input-single-output systems
 
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
@@ -19,50 +19,46 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ZERO_SISO_H
-#define ZERO_SISO_H
+#ifndef SISO_SYSTEM_INTERFACE_H
+#define SISO_SYSTEM_INTERFACE_H
 
-#include "sun_systems_lib/SISO_System.h"
+#include "sun_systems_lib/Discrete_System_Interface.cpp"
 
-class Zero_SISO : public SISO_System 
+class SISO_System_Interface : public Discrete_System_Interface 
 {
 private:
 
 protected:
 
-TooN::Vector<> zero_v_ = TooN::makeVector(0.0);
-
 public:
 
-Zero_SISO(){}
+virtual SISO_System_Interface* clone() const override = 0;
 
-virtual Zero_SISO* clone() const override
+virtual ~SISO_System_Interface() override = default;
+
+virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override = 0;
+
+virtual double apply( double input ) = 0;
+
+virtual void reset() override = 0;
+
+virtual const unsigned int getSizeInput() const override
 {
-    return new Zero_SISO(*this);
+    return 1;
 }
 
-virtual ~Zero_SISO() override = default;
-
-inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
+virtual const unsigned int getSizeOutput() const override
 {
-    return zero_v_;
+    return 1;
 }
-
-inline virtual double apply( double input ) override
-{
-    return 0.0;
-}
-
-inline virtual void reset() override {}
 
 virtual void display() const override
 {
-    std::cout <<
-    "Zero_SISO" << std::endl;
+    std::cout << BOLDYELLOW "WARNING! display() not implemented for SISO_System_Interface" CRESET << std::endl;
 }
 
 };
 
-using Zero_SISO_Ptr = std::unique_ptr<Zero_SISO>;
+using SISO_System_Interface_Ptr = std::unique_ptr<SISO_System_Interface>;
 
 #endif

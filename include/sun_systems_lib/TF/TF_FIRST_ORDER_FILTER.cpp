@@ -2,6 +2,8 @@
 /*
     TF_FIRST_ORDER_FILTER Class
 
+    First order Low_Pass_Filter
+
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
@@ -23,7 +25,7 @@
 #ifndef TF_FIRST_ORDER_FILTER_H
 #define TF_FIRST_ORDER_FILTER_H
 
-#include "sun_systems_lib/TF_SISO/TF_SISO.h"
+#include "sun_systems_lib/TF/TF_SISO.cpp"
 
 class TF_FIRST_ORDER_FILTER : public TF_SISO 
 {
@@ -85,6 +87,7 @@ inline virtual void setTs(double Ts) override
     throw "[TF_FIRST_ORDER_FILTER::setTs] Cannot set Ts on TF_FIRST_ORDER_FILTER";
 }
 
+//Change the state so that the output is "output"
 inline virtual void setOutput(double output)
 {
     if(gain_!=0.0)
@@ -100,9 +103,6 @@ inline virtual void setOutput(double output)
     u_vec_ = TooN::makeVector( output, output );
 }
 /*==============================================*/
-
-/*=============SETTER FROM FILE===========================*/
-/*========================================================*/
 
 /*=============RUNNER===========================*/
 inline virtual double apply( double uk) override

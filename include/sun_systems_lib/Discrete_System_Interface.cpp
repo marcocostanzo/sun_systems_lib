@@ -1,5 +1,5 @@
 /*
-    System Interface Class
+    Discrete Time System Interface Class
 
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
@@ -19,8 +19,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SYSTEM_INTERFACE_H
-#define SYSTEM_INTERFACE_H
+#ifndef DISCRETE_SYSTEM_INTERFACE_H
+#define DISCRETE_SYSTEM_INTERFACE_H
 
 #include <TooN/TooN.h>
 #include <memory>
@@ -51,7 +51,7 @@
 
 #endif
 
-class System_Interface
+class Discrete_System_Interface
 {
 
 private:
@@ -60,21 +60,25 @@ protected:
 
 public:
 
-virtual System_Interface* clone() const = 0;
+virtual Discrete_System_Interface* clone() const = 0;
 
-virtual ~System_Interface() = default;
+virtual ~Discrete_System_Interface() = default;
 
 virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) = 0;
 
 virtual void reset() = 0;
 
+virtual const unsigned int getSizeInput() const = 0;
+
+virtual const unsigned int getSizeOutput() const = 0;
+
 virtual void display() const
 {
-    std::cout << BOLDYELLOW "WARNING! display() not implemented for System_Interface" CRESET << std::endl;
+    std::cout << BOLDYELLOW "WARNING! display() not implemented for Discrete_System_Interface" CRESET << std::endl;
 }
 
 };
 
-using System_Interface_Ptr = std::unique_ptr<System_Interface>;
+using Discrete_System_Interface_Ptr = std::unique_ptr<Discrete_System_Interface>;
 
 #endif

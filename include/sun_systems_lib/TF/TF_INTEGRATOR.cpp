@@ -2,6 +2,8 @@
 /*
     TF_INTEGTATOR Class
 
+    Integrator transfer function using the trapez method
+
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
@@ -23,7 +25,7 @@
 #ifndef TF_INTEGRATOR_H
 #define TF_INTEGRATOR_H
 
-#include "sun_systems_lib/TF_SISO/TF_SISO.h"
+#include "sun_systems_lib/TF/TF_SISO.cpp"
 
 class TF_INTEGRATOR : public TF_SISO
 {

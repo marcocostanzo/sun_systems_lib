@@ -125,10 +125,19 @@ include_directories(
 
 
 add_library(${PROJECT_NAME}
-    #include/${PROJECT_NAME}/TF_SISO/TF_INTEGRATOR.cpp
-    #include/${PROJECT_NAME}/TF_SISO/TF_FIRST_ORDER_FILTER.cpp
-    include/${PROJECT_NAME}/MIMO/MIMO_Diagonal.cpp
-    include/${PROJECT_NAME}/SS/SS_Linear.cpp
+    include/${PROJECT_NAME}/Discrete_System_Interface.cpp
+    include/${PROJECT_NAME}/Linear_System_Interface.cpp
+    include/${PROJECT_NAME}/SISO_System_Interface.cpp
+    include/${PROJECT_NAME}/TF/TF_SISO.cpp
+    include/${PROJECT_NAME}/TF/TF_FIRST_ORDER_FILTER.cpp
+    include/${PROJECT_NAME}/TF/TF_INTEGRATOR.cpp
+    include/${PROJECT_NAME}/TF/TF_MIMO.cpp
+    include/${PROJECT_NAME}/TF/TF_MIMO_DIAGONAL.cpp
+    include/${PROJECT_NAME}/SS/SS_Interface.cpp
+    include/${PROJECT_NAME}/SS/SS_LINEAR.cpp
+    include/${PROJECT_NAME}/SS/SS.cpp
+    include/${PROJECT_NAME}/Observers/Observer_Interface.cpp
+    include/${PROJECT_NAME}/Observers/Luenberger_Observer.cpp
 )
 
 ## Add cmake target dependencies of the library
