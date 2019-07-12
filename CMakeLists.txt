@@ -141,6 +141,8 @@ add_library(${PROJECT_NAME}
     include/${PROJECT_NAME}/Observers/Kalman_Filter.cpp
     include/${PROJECT_NAME}/Continuous/Continuous_System_Interface.cpp
     include/${PROJECT_NAME}/Continuous/Continuous_System.cpp
+    include/${PROJECT_NAME}/Discretization/Discretizator_Interface.cpp
+    include/${PROJECT_NAME}/Discretization/RK4.cpp
 )
 
 ## Add cmake target dependencies of the library
