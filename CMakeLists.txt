@@ -138,6 +138,7 @@ add_library(${PROJECT_NAME}
     include/${PROJECT_NAME}/SS/SS.cpp
     include/${PROJECT_NAME}/Observers/Observer_Interface.cpp
     include/${PROJECT_NAME}/Observers/Luenberger_Observer.cpp
+    include/${PROJECT_NAME}/Observers/Kalman_Filter.cpp
 )
 
 ## Add cmake target dependencies of the library
