@@ -102,7 +102,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
- LIBRARIES ${PROJECT_NAME}
+ #LIBRARIES ${PROJECT_NAME}
  CATKIN_DEPENDS ros_toon
 #  DEPENDS system_lib 
 )
@@ -124,28 +124,28 @@ include_directories(
 # )
 
 
-add_library(${PROJECT_NAME}
-    include/${PROJECT_NAME}/Discrete_System_Interface.cpp
-    include/${PROJECT_NAME}/Linear_System_Interface.cpp
-    include/${PROJECT_NAME}/SISO_System_Interface.cpp
-    include/${PROJECT_NAME}/TF/TF_SISO.cpp
-    include/${PROJECT_NAME}/TF/TF_FIRST_ORDER_FILTER.cpp
-    include/${PROJECT_NAME}/TF/TF_INTEGRATOR.cpp
-    include/${PROJECT_NAME}/TF/TF_MIMO.cpp
-    include/${PROJECT_NAME}/TF/TF_MIMO_DIAGONAL.cpp
-    include/${PROJECT_NAME}/SS/SS_Interface.cpp
-    include/${PROJECT_NAME}/SS/SS_LINEAR.cpp
-    include/${PROJECT_NAME}/SS/SS.cpp
-    include/${PROJECT_NAME}/Observers/Observer_Interface.cpp
-    include/${PROJECT_NAME}/Observers/Luenberger_Observer.cpp
-    include/${PROJECT_NAME}/Observers/Kalman_Filter.cpp
-    include/${PROJECT_NAME}/Continuous/Continuous_System_Interface.cpp
-    include/${PROJECT_NAME}/Continuous/Continuous_System.cpp
-    include/${PROJECT_NAME}/Discretization/Discretizator_Interface.cpp
-    include/${PROJECT_NAME}/Discretization/RK4.cpp
-    include/${PROJECT_NAME}/Continuous/Continuous_Observer_Interface.cpp
-    include/${PROJECT_NAME}/Continuous/Continuous_Luenberger_Observer.cpp
-)
+#add_library(${PROJECT_NAME}
+#    include/${PROJECT_NAME}/Discrete_System_Interface.cpp
+#    include/${PROJECT_NAME}/Linear_System_Interface.cpp
+#    include/${PROJECT_NAME}/SISO_System_Interface.cpp
+#    include/${PROJECT_NAME}/TF/TF_SISO.cpp
+#    include/${PROJECT_NAME}/TF/TF_FIRST_ORDER_FILTER.cpp
+#    include/${PROJECT_NAME}/TF/TF_INTEGRATOR.cpp
+#    include/${PROJECT_NAME}/TF/TF_MIMO.cpp
+#    include/${PROJECT_NAME}/TF/TF_MIMO_DIAGONAL.cpp
+#    include/${PROJECT_NAME}/SS/SS_Interface.cpp
+#    include/${PROJECT_NAME}/SS/SS_LINEAR.cpp
+#    include/${PROJECT_NAME}/SS/SS.cpp
+#    include/${PROJECT_NAME}/Observers/Observer_Interface.cpp
+#    include/${PROJECT_NAME}/Observers/Luenberger_Observer.cpp
+#    include/${PROJECT_NAME}/Observers/Kalman_Filter.cpp
+#    include/${PROJECT_NAME}/Continuous/Continuous_System_Interface.cpp
+#    include/${PROJECT_NAME}/Continuous/Continuous_System.cpp
+#    include/${PROJECT_NAME}/Discretization/Discretizator_Interface.cpp
+#    include/${PROJECT_NAME}/Discretization/RK4.cpp
+#    include/${PROJECT_NAME}/Continuous/Continuous_Observer_Interface.cpp
+#    include/${PROJECT_NAME}/Continuous/Continuous_Luenberger_Observer.cpp
+#)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

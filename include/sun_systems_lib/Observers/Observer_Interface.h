@@ -22,7 +22,7 @@
 #ifndef OBSERVER_INTERFACE_H
 #define OBSERVER_INTERFACE_H
 
-#include <sun_systems_lib/SS/SS_Interface.cpp>
+#include <sun_systems_lib/SS/SS_Interface.h>
 
 class Observer_Interface : public SS_Interface
 {
@@ -59,36 +59,52 @@ virtual ~Observer_Interface() override = default;
 //    state_ = state;
 //}
 
-virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const = 0;
+virtual const TooN::Vector<> obs_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const = 0;
 
-virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
+inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 {
     const unsigned int size_real_input = getSizeRealInput();
-    return state_fcn(   x_k_1, 
+    return obs_state_fcn(   x_k_1, 
                         u_k.slice(0, size_real_input), 
                         u_k.slice(size_real_input, getSizeOutput()) 
                         );
 }
 
-virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override = 0;
+virtual const TooN::Vector<> obs_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const = 0;
 
-virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const = 0;
+inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+{
+    const unsigned int size_real_input = getSizeRealInput();
+    return obs_output_fcn(   x_k, 
+                        u_k.slice(0, size_real_input)
+                        );
+}
+
+virtual const TooN::Matrix<> obs_jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const = 0;
 
 virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 {
     const unsigned int size_real_input = getSizeRealInput();
-    return jacob_state_fcn( x_k_1, 
+    return obs_jacob_state_fcn( x_k_1, 
                             u_k.slice(0, size_real_input), 
                             u_k.slice(size_real_input, getSizeOutput()) 
                             );
 }
 
-virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override = 0;
+virtual const TooN::Matrix<> obs_jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const = 0;
 
-virtual const TooN::Vector<>& apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
+virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 {
-    state_ = state_fcn( state_, input, measure );
-    output_ = output_fcn( state_, input );
+    const unsigned int size_real_input = getSizeRealInput();
+    return obs_jacob_output_fcn(   x_k, 
+                        u_k.slice(0, size_real_input)
+                        );
+}
+
+virtual const TooN::Vector<>& obs_apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
+{
+    state_ = obs_state_fcn( state_, input, measure );
+    output_ = obs_output_fcn( state_, input );
     return output_;
 } 
 
@@ -122,6 +138,15 @@ virtual const unsigned int getSizeOutput() const override = 0;
 virtual void display() const override
 {
     std::cout << BOLDYELLOW "WARNING! display() not implemented for Observer_Interface" CRESET << std::endl;
+}
+
+inline virtual TooN::Vector<> buildFullInput( const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const
+{
+    TooN::Vector<> full_input = TooN::Zeros( getSizeInput() );
+    const unsigned int size_real_input = getSizeRealInput();
+    full_input.slice( 0, size_real_input ) = u_k;
+    full_input.slice( size_real_input, getSizeOutput() ) = y_k;
+    return full_input;
 }
 
 };

@@ -22,7 +22,7 @@
 #ifndef TF_MIMO_DIAGONAL_H
 #define TF_MIMO_DIAGONAL_H
 
-#include <sun_systems_lib/TF/TF_MIMO.cpp>
+#include <sun_systems_lib/TF/TF_MIMO.h>
 
 class TF_MIMO_DIAGONAL : public TF_MIMO
 {
@@ -38,6 +38,13 @@ public:
 TF_MIMO_DIAGONAL( unsigned int dim )
 :TF_MIMO(dim,dim)
 {}
+
+TF_MIMO_DIAGONAL( unsigned int dim, const TF_SISO& siso_on_diagonal  )
+:TF_MIMO_DIAGONAL(dim)
+{
+    for(int i=0; i<dim; i++)
+        setSISO( i, siso_on_diagonal );
+}
 
 TF_MIMO_DIAGONAL( const TF_MIMO_DIAGONAL& mimo )
 :TF_MIMO(mimo)

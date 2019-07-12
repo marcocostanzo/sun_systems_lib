@@ -1,8 +1,8 @@
 
 /*
-    TF_INTEGTATOR Class
+    TF_FIRST_ORDER_FILTER Class
 
-    Integrator transfer function using the trapez method
+    First order Low_Pass_Filter
 
     Copyright 2019 Università della Campania Luigi Vanvitelli
 
@@ -22,16 +22,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TF_INTEGRATOR_H
-#define TF_INTEGRATOR_H
+#ifndef TF_FIRST_ORDER_FILTER_H
+#define TF_FIRST_ORDER_FILTER_H
 
-#include "sun_systems_lib/TF/TF_SISO.cpp"
+#include "sun_systems_lib/TF/TF_SISO.h"
 
-class TF_INTEGRATOR : public TF_SISO
+class TF_FIRST_ORDER_FILTER : public TF_SISO 
 {
 private:
 
-TF_INTEGRATOR(); //NO DEFAULT CONSTRUCTOR
+TF_FIRST_ORDER_FILTER(); //NO DEFAULT CONSTRUCTOR
 
 protected:
 
@@ -39,25 +39,43 @@ double gain_;
 
 public:
 /*===============CONSTRUCTORS===================*/
-TF_INTEGRATOR(double Ts, double gain = 1.0)
-:TF_SISO( (Ts/2.0) * TooN::makeVector( 1.0 , 1.0 ),
-          TooN::makeVector(1.0, -1.0 ),
-          Ts
-        ),
+
+TF_FIRST_ORDER_FILTER(double cut_freq, double Ts, double gain = 1.0)
+:TF_SISO(   tf_first_order_get_num_coeff(cut_freq, Ts), 
+            tf_first_order_get_den_coeff(cut_freq, Ts),
+            Ts ),
 gain_(gain)
 {}
 
-virtual ~TF_INTEGRATOR() override = default;
-    
+TF_FIRST_ORDER_FILTER(const TF_FIRST_ORDER_FILTER& tf) = default;
+
+virtual ~TF_FIRST_ORDER_FILTER() override = default;
+
 /*
     Clone the object
 */
-virtual TF_INTEGRATOR* clone() const override
+virtual TF_FIRST_ORDER_FILTER* clone() const override
 {
-    return new TF_INTEGRATOR(*this);
+    return new TF_FIRST_ORDER_FILTER(*this);
 }
 
-TF_INTEGRATOR( const TF_INTEGRATOR& tf ) = default;
+/*==============================================*/
+
+/*===============STATIC FUNCTIONS FOR SIMPLE CONSTRUCTOR WRITING=======*/
+static TooN::Vector<2> tf_first_order_get_num_coeff(double cut_freq, double Ts)
+{
+    double tau = 1.0/(2.0*M_PI*cut_freq);
+    double _alpha = 2.0*tau/Ts;
+    return (1.0/(1.0+_alpha)) * TooN::makeVector( 1.0 , 1.0 );
+}
+
+static TooN::Vector<2> tf_first_order_get_den_coeff(double cut_freq, double Ts)
+{
+    double tau = 1.0/(2.0*M_PI*cut_freq);
+    double _alpha = 2.0*tau/Ts;
+    return TooN::makeVector( 1.0, ( (1.0-_alpha)/(1.0+_alpha) ) );
+}
+
 /*==============================================*/
 
 /*=============GETTER===========================*/
@@ -66,9 +84,10 @@ TF_INTEGRATOR( const TF_INTEGRATOR& tf ) = default;
 /*=============SETTER===========================*/
 inline virtual void setTs(double Ts) override
 {
-    throw "[TF_INTEGRATOR::setTs] Cannot set Ts on TF_INTEGRATOR";
+    throw "[TF_FIRST_ORDER_FILTER::setTs] Cannot set Ts on TF_FIRST_ORDER_FILTER";
 }
 
+//Change the state so that the output is "output"
 inline virtual void setOutput(double output)
 {
     if(gain_!=0.0)
@@ -81,7 +100,7 @@ inline virtual void setOutput(double output)
         y_vec_[0] = 0.0;
         y_k_[0] = 0.0;
     }
-    u_vec_ = TooN::Zeros;
+    u_vec_ = TooN::makeVector( output, output );
 }
 /*==============================================*/
 
@@ -97,8 +116,9 @@ inline virtual double apply( double uk) override
 virtual void display() const override
 {
     std::cout << 
-    "TF_INTEGRATOR:" << std::endl <<
+    "TF_FIRST_ORDER_FILTER:" << std::endl <<
     "   Ts: " << ts_ << std::endl <<
+    "   cut_freq: " << (1.0/(((1.0/b_vec_[0])-1.0)*ts_/2.0))/(2.0*M_PI) << std::endl <<
     "   gain: " << gain_ << std::endl;
 }
 /*==============================================*/
@@ -108,6 +128,6 @@ virtual void display() const override
 /*=============STATIC FUNS===========================*/
 /*==============================================*/
 
-using TF_INTEGRATOR_Ptr = std::unique_ptr<TF_INTEGRATOR>;
+using TF_FIRST_ORDER_FILTER_Ptr = std::unique_ptr<TF_FIRST_ORDER_FILTER>;
 
 #endif

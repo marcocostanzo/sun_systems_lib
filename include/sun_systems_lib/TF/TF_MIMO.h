@@ -22,8 +22,8 @@
 #ifndef MIMO_MIMO_H
 #define MIMO_MIMO_H
 
-#include <sun_systems_lib/Linear_System_Interface.cpp>
-#include <sun_systems_lib/TF/TF_SISO.cpp>
+#include <sun_systems_lib/Linear_System_Interface.h>
+#include <sun_systems_lib/TF/TF_SISO.h>
 
 class TF_MIMO : public Linear_System_Interface
 {

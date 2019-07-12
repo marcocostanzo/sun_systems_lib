@@ -22,7 +22,7 @@
 #ifndef DISCRETIZATOR_INTERFACE_H
 #define DISCRETIZATOR_INTERFACE_H
 
-#include <sun_systems_lib/SS/SS_Interface.cpp>
+#include <sun_systems_lib/SS/SS_Interface.h>
 
 class Discretizator_Interface : public SS_Interface
 {

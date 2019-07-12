@@ -22,7 +22,7 @@
 #ifndef KALMAN_FILTER_H
 #define KALMAN_FILTER_H
 
-#include <sun_systems_lib/Observers/Observer_Interface.cpp>
+#include <sun_systems_lib/Observers/Observer_Interface.h>
 #include "TooN/SVD.h"
 
 class Kalman_Filter : public Observer_Interface
@@ -100,14 +100,14 @@ inline virtual void setV( const TooN::Matrix<>& V )
     V_ = V;
 }
 
-inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& u_k1, const TooN::Vector<>& y_k, const TooN::Matrix<>& W_k1, const TooN::Matrix<>& V_k )
+inline virtual const TooN::Vector<>& kf_apply( const TooN::Vector<>& u_k1, const TooN::Vector<>& y_k, const TooN::Matrix<>& W_k1, const TooN::Matrix<>& V_k )
 {
     setW(W_k1);
     setV(V_k);
-    return apply( u_k1, y_k );
+    return obs_apply( u_k1, y_k );
 }
 
-inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& u_k1, const TooN::Vector<>& y_k ) override
+inline virtual const TooN::Vector<>& obs_apply( const TooN::Vector<>& u_k1, const TooN::Vector<>& y_k ) override
 {
     #define x_hat_k_k state_
     #define x_hat_k1_k1 state_
@@ -164,7 +164,7 @@ inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& u_k1, const To
 
 }
 
-virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
+virtual const TooN::Vector<> obs_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
 {
     throw std::runtime_error("[Kalman_Filter]::state_fcn not implemented");
 }
@@ -178,12 +178,21 @@ virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN:
 //                        );
 //}
 
-virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+virtual const TooN::Vector<> obs_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 {
     throw std::runtime_error("[Kalman_Filter]::output_fcn not implemented");
 }
 
-virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
+//inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+//{
+//    const unsigned int size_real_input = getSizeRealInput();
+//    return obs_output_fcn(   x_k_1, 
+//                        u_k.slice(0, size_real_input), 
+//                        u_k.slice(size_real_input, getSizeOutput()) 
+//                        );
+//}
+
+virtual const TooN::Matrix<> obs_jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
 {
     throw std::runtime_error("[Kalman_Filter]::jacob_state_fcn not implemented");
 }
@@ -191,31 +200,39 @@ virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const
 //virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 //{
 //    const unsigned int size_real_input = getSizeRealInput();
-//    return jacob_state_fcn( x_k_1, 
+//    return obs_jacob_state_fcn( x_k_1, 
 //                            u_k.slice(0, size_real_input), 
 //                            u_k.slice(size_real_input, getSizeOutput()) 
 //                            );
 //}
 
-virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+virtual const TooN::Matrix<> obs_jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 {
     throw std::runtime_error("[Kalman_Filter]::jacob_output_fcn not implemented");
 }
 
-//virtual const TooN::Vector<>& apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
+//virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 //{
-//    state_ = state_fcn( state_, input, measure );
+//    const unsigned int size_real_input = getSizeRealInput();
+//    return obs_jacob_output_fcn(   x_k_1, 
+//                        u_k.slice(0, size_real_input), 
+//                        u_k.slice(size_real_input, getSizeOutput()) 
+//                        );
+//}
+
+//inline virtual const TooN::Vector<>& obs_apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
+//{
+//    state_ = obs_state_fcn( state_, input, measure );
+//    output_ = obs_output_fcn( state_, input );
+//    return output_;
+//}
+
+//virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
+//{
+//    state_ = state_fcn( state_, input );
 //    output_ = output_fcn( state_, input );
 //    return output_;
-//} 
-
-virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
-{
-    const unsigned int size_real_input = getSizeRealInput();
-    return apply(   input.slice(0, size_real_input), 
-                    input.slice(size_real_input, getSizeOutput()) 
-                );
-}
+//}
 
 virtual void reset() override
 {

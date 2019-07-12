@@ -22,8 +22,8 @@
 #ifndef RK4_H
 #define RK4_H
 
-#include <sun_systems_lib/Discretization/Discretizator_Interface.cpp>
-#include <sun_systems_lib/Continuous/Continuous_System_Interface.cpp>
+#include <sun_systems_lib/Discretization/Discretizator_Interface.h>
+#include <sun_systems_lib/Continuous/Continuous_System_Interface.h>
 
 class RK4 : public Discretizator_Interface
 {
@@ -39,6 +39,9 @@ Continuous_System_Interface_Ptr system_;
 double Ts_, Ts_2_, Ts_6_;
 TooN::Matrix<> Identity_x_;
 
+/*Config*/
+bool b_use_previous_input_everywhere_;
+
 ////SS_Interface( const TooN::Vector<>& state, const TooN::Vector<>& output )
 ////            :state_(state),
 ////            output_(output)
@@ -52,7 +55,8 @@ public:
 
 RK4(
     const Continuous_System_Interface& system,
-    double Ts
+    double Ts,
+    bool use_previous_input_everywhere = false
     )
     :Discretizator_Interface( TooN::Zeros(system.getSizeState()), TooN::Zeros(system.getSizeOutput()) ),
     u_n_1_(TooN::Zeros(system.getSizeOutput())),
@@ -60,7 +64,8 @@ RK4(
     Ts_(Ts),
     Ts_2_(Ts/2.0),
     Ts_6_(Ts/6.0),
-    Identity_x_( TooN::Identity(system.getSizeState()) )
+    Identity_x_( TooN::Identity(system.getSizeState()) ),
+    b_use_previous_input_everywhere_(use_previous_input_everywhere)
     {}
 
 RK4(const RK4& ss)
@@ -70,7 +75,8 @@ RK4(const RK4& ss)
     Ts_(ss.Ts_),
     Ts_2_(ss.Ts_2_),
     Ts_6_(ss.Ts_6_),
-    Identity_x_( ss.Identity_x_ )
+    Identity_x_( ss.Identity_x_ ),
+    b_use_previous_input_everywhere_(ss.b_use_previous_input_everywhere_)
     {}
 
 virtual RK4* clone() const override
@@ -102,10 +108,13 @@ inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_n_1, cons
     return x_n_1 + Ts_6_ * ( k1 + 2.0*k2 + 2.0*k3 + k4 ); //=x_n
 }
 
-// To make this function stateless, u_k_1 = u_k
+// To make this function stateless, i.e. u_k_1 = u_k, b_use_previous_input_everywhere_ must be false (this is the default)
 inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 {
-    return state_fcn( x_k_1, u_k, u_k );
+    if(b_use_previous_input_everywhere_)
+        return state_fcn( x_k_1, u_k, u_n_1_ );
+    else
+        return state_fcn( x_k_1, u_k, u_k );
 }
 
 inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
@@ -129,10 +138,13 @@ inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_n_1
     return Identity_x_ + Ts_6_ * ( jac_k1 + 2.0*jac_k2 + 2.0*jac_k3 + jac_k4 ); //=jac_n
 }
 
-// To make this function stateless, u_k_1 = u_k
+// To make this function stateless, i.e. u_k_1 = u_k, b_use_previous_input_everywhere_ must be false (this is the default)
 inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 {
-    return jacob_state_fcn( x_k_1, u_k, u_k );
+    if(b_use_previous_input_everywhere_)
+        return jacob_state_fcn( x_k_1, u_k, u_n_1_ );
+    else
+        return jacob_state_fcn( x_k_1, u_k, u_k );
 }
 
 virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override

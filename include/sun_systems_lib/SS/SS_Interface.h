@@ -22,7 +22,7 @@
 #ifndef SS_INTERFACE_H
 #define SS_INTERFACE_H
 
-#include <sun_systems_lib/Discrete_System_Interface.cpp>
+#include <sun_systems_lib/Discrete_System_Interface.h>
 
 class SS_Interface : public Discrete_System_Interface
 {

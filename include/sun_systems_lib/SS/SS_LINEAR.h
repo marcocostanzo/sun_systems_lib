@@ -22,8 +22,8 @@
 #ifndef SS_LINEAR_H
 #define SS_LINEAR_H
 
-#include <sun_systems_lib/SS/SS_Interface.cpp>
-#include <sun_systems_lib/Linear_System_Interface.cpp>
+#include <sun_systems_lib/SS/SS_Interface.h>
+#include <sun_systems_lib/Linear_System_Interface.h>
 
 class SS_LINEAR : public SS_Interface, public Linear_System_Interface
 {

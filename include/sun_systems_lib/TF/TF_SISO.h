@@ -23,8 +23,8 @@
 #ifndef TF_SISO_LIB
 #define TF_SISO_LIB
 
-#include "sun_systems_lib/SISO_System_Interface.cpp"
-#include "sun_systems_lib/Linear_System_Interface.cpp"
+#include "sun_systems_lib/SISO_System_Interface.h"
+#include "sun_systems_lib/Linear_System_Interface.h"
 
 /*
          b0 + b1*z-1 + b2*z-2 + ... + bn*z-n

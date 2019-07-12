@@ -22,7 +22,7 @@
 #ifndef CONTINUOUS_LUENBERGER_OBSERVER_H
 #define CONTINUOUS_LUENBERGER_OBSERVER_H
 
-#include <sun_systems_lib/Continuous/Continuous_Observer_Interface.cpp>
+#include <sun_systems_lib/Continuous/Continuous_Observer_Interface.h>
 
 class Continuous_Luenberger_Observer : public Continuous_Observer_Interface
 {
@@ -58,40 +58,48 @@ virtual Continuous_Luenberger_Observer* clone() const override
 
 virtual ~Continuous_Luenberger_Observer() override = default;
 
-inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
+inline virtual const TooN::Vector<> obs_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
 {
     return system_->state_fcn(x_k_1,u_k) + L_ * ( y_k - system_->output_fcn(x_k_1,u_k) );
 }
 
-//virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
+//inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
+//{
+//    const unsigned int real_input = getSizeRealInput();
+//    return obs_state_fcn(   x_k_1, 
+//                        u_k.slice(0, real_input ), 
+//                        u_k.slice(real_input, getSizeOutput()) 
+//                        );
+//}
+
+inline virtual const TooN::Vector<> obs_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+{
+    return system_->output_fcn( x_k, u_k );
+}
+
+//inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 //{
 //    const unsigned int size_real_input = getSizeRealInput();
-//    return state_fcn(   x_k_1, 
+//    return obs_output_fcn(   x_k_1, 
 //                        u_k.slice(0, size_real_input), 
 //                        u_k.slice(size_real_input, getSizeOutput()) 
 //                        );
 //}
 
-inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
-{
-    return system_->output_fcn( x_k, u_k );
-}
-
-inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
+inline virtual const TooN::Matrix<> obs_jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
 {
     return system_->jacob_state_fcn(x_k_1,u_k) - L_ * system_->jacob_output_fcn(x_k_1,u_k);
 }
 
-//virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
+//inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
 //{
-//    const unsigned int size_real_input = getSizeRealInput();
-//    return jacob_state_fcn( x_k_1, 
-//                            u_k.slice(0, size_real_input), 
-//                            u_k.slice(size_real_input, getSizeOutput()) 
+//    return obs_jacob_state_fcn( x_k_1, 
+//                            u_k.slice(0,system_->getSizeInput()), 
+//                            u_k.slice(system_->getSizeInput(),system_->getSizeOutput()) 
 //                            );
 //}
 
-inline virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
+inline virtual const TooN::Matrix<> obs_jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
 {
     return system_->jacob_output_fcn( x_k, u_k );
 }
