@@ -163,7 +163,7 @@ virtual void display() const override
     std::cout << BOLDYELLOW "WARNING! display() not implemented for Luenberger_Observer" CRESET << std::endl;
 }
 
-virtual bool chek_dimensions()
+virtual bool chek_dimensions() const
 {
     if(state_.size() != system_->getSizeState())
         return false;

@@ -124,7 +124,7 @@ virtual void display() const override
     "SS_LINEAR [END]" << std::endl;
 }
 
-virtual bool chek_dimensions()
+virtual bool chek_dimensions() const
 {
     if(A_.num_rows() != A_.num_cols())
         return false;

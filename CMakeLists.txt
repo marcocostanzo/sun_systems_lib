@@ -143,6 +143,8 @@ add_library(${PROJECT_NAME}
     include/${PROJECT_NAME}/Continuous/Continuous_System.cpp
     include/${PROJECT_NAME}/Discretization/Discretizator_Interface.cpp
     include/${PROJECT_NAME}/Discretization/RK4.cpp
+    include/${PROJECT_NAME}/Continuous/Continuous_Observer_Interface.cpp
+    include/${PROJECT_NAME}/Continuous/Continuous_Luenberger_Observer.cpp
 )
 
 ## Add cmake target dependencies of the library
