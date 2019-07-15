@@ -107,8 +107,7 @@ inline virtual void setOutput(double output)
 /*=============RUNNER===========================*/
 inline virtual double apply( double uk) override
 {
-    y_k_[0] = gain_*TF_SISO::apply( uk );
-    return y_k_[0];
+    return gain_*TF_SISO::apply( uk );
 }
 /*==============================================*/
 
@@ -121,6 +120,12 @@ virtual void display() const override
     "   cut_freq: " << (1.0/(((1.0/b_vec_[0])-1.0)*ts_/2.0))/(2.0*M_PI) << std::endl <<
     "   gain: " << gain_ << std::endl;
 }
+
+virtual void display_tf() const override
+{
+    TF_SISO::display();
+}
+
 /*==============================================*/
 
 };

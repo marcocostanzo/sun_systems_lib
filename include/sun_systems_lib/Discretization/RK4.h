@@ -59,7 +59,7 @@ RK4(
     bool use_previous_input_everywhere = false
     )
     :Discretizator_Interface( TooN::Zeros(system.getSizeState()), TooN::Zeros(system.getSizeOutput()) ),
-    u_n_1_(TooN::Zeros(system.getSizeOutput())),
+    u_n_1_(TooN::Zeros(system.getSizeInput())),
     system_( system.clone() ),
     Ts_(Ts),
     Ts_2_(Ts/2.0),
@@ -178,7 +178,7 @@ virtual const unsigned int getSizeInput() const override
 
 virtual const unsigned int getSizeOutput() const override
 {
-    return system_->getSizeInput();
+    return system_->getSizeOutput();
 }
 
 ////virtual const unsigned int getSizeState() const

@@ -106,7 +106,7 @@ inline virtual const TooN::Matrix<> obs_jacob_output_fcn( const TooN::Vector<>& 
 
 inline virtual const unsigned int getSizeRealInput() const
 {
-    return getSizeInput() - getSizeOutput();
+    return system_->getSizeInput();
 }
 
 inline virtual const unsigned int getSizeInput() const override

@@ -253,6 +253,11 @@ virtual const unsigned int getSizeOutput() const override
 
 virtual void display() const override
 {
+    display_tf();
+}
+
+virtual void display_tf() const
+{
     std::cout << 
     "TF_SISO:" << std::endl <<
     "   Num_Coeff= " << b_vec_ << std::endl <<
@@ -260,8 +265,9 @@ virtual void display() const override
     "   State" << std::endl <<
     "   u_vec= " << u_vec_ << std::endl <<
     "   y_vec= " << y_vec_ << std::endl <<
-    "   y_k= " << y_k_ << std::endl; 
+    "   y_k= " << y_k_ << std::endl;
 }
+
 /*==============================================*/
 
 };

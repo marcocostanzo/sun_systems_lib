@@ -88,12 +88,12 @@ inline virtual void setOutput(double output)
 /*=============RUNNER===========================*/
 inline virtual double apply( double uk) override
 {
-    y_k_[0] = gain_*TF_SISO::apply( uk );
-    return y_k_[0];
+    return gain_*TF_SISO::apply( uk );
 }
 /*==============================================*/
 
 /*=============VARIE===========================*/
+
 virtual void display() const override
 {
     std::cout << 
@@ -101,6 +101,12 @@ virtual void display() const override
     "   Ts: " << ts_ << std::endl <<
     "   gain: " << gain_ << std::endl;
 }
+
+virtual void display_tf() const override
+{
+    TF_SISO::display();
+}
+
 /*==============================================*/
 
 };

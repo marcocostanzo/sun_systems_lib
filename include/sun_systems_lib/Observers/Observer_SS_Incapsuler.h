@@ -136,12 +136,10 @@ inline virtual const TooN::Matrix<> jacob_output_fcn( const TooN::Vector<>& x_k,
                             );
 }
 
-//virtual const TooN::Vector<>& obs_apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
-//{
-//    state_ = obs_state_fcn( state_, input, measure );
-//    output_ = obs_output_fcn( state_, input );
-//    return output_;
-//} 
+virtual const TooN::Vector<>& obs_apply( const TooN::Vector<>& input, const TooN::Vector<>& measure )
+{
+    return system_->apply( buildFullInput(input,measure) );
+}
 
 inline virtual const TooN::Vector<>& apply( const TooN::Vector<>& input ) override
 {
