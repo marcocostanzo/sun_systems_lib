@@ -71,24 +71,17 @@ inline virtual void setTs(double Ts) override
 
 inline virtual void setOutput(double output)
 {
-    if(gain_!=0.0)
-    {
-        output = output/gain_;
-        y_vec_[0] = output;
-        y_k_[0] = output;
-    } else
-    {
-        y_vec_[0] = 0.0;
-        y_k_[0] = 0.0;
-    }
-    u_vec_ = TooN::Zeros;
+    u_vec_[0] = 0.0;
+    u_vec_[1] = 0.0;
+    y_vec_[0] = output;
+    y_k_[0] = output;
 }
 /*==============================================*/
 
 /*=============RUNNER===========================*/
 inline virtual double apply( double uk) override
 {
-    return gain_*TF_SISO::apply( uk );
+    return TF_SISO::apply( gain_*uk );
 }
 /*==============================================*/
 
@@ -100,11 +93,6 @@ virtual void display() const override
     "TF_INTEGRATOR:" << std::endl <<
     "   Ts: " << ts_ << std::endl <<
     "   gain: " << gain_ << std::endl;
-}
-
-virtual void display_tf() const override
-{
-    TF_SISO::display();
 }
 
 /*==============================================*/

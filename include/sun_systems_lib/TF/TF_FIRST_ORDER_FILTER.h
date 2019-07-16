@@ -90,24 +90,17 @@ inline virtual void setTs(double Ts) override
 //Change the state so that the output is "output"
 inline virtual void setOutput(double output)
 {
-    if(gain_!=0.0)
-    {
-        output = output/gain_;
-        y_vec_[0] = output;
-        y_k_[0] = output;
-    } else
-    {
-        y_vec_[0] = 0.0;
-        y_k_[0] = 0.0;
-    }
-    u_vec_ = TooN::makeVector( output, output );
+    u_vec_[0] = output;
+    u_vec_[1] = output;
+    y_vec_[0] = output;
+    y_k_[0] = output;
 }
 /*==============================================*/
 
 /*=============RUNNER===========================*/
 inline virtual double apply( double uk) override
 {
-    return gain_*TF_SISO::apply( uk );
+    return TF_SISO::apply( gain_*uk );
 }
 /*==============================================*/
 
@@ -119,11 +112,6 @@ virtual void display() const override
     "   Ts: " << ts_ << std::endl <<
     "   cut_freq: " << (1.0/(((1.0/b_vec_[0])-1.0)*ts_/2.0))/(2.0*M_PI) << std::endl <<
     "   gain: " << gain_ << std::endl;
-}
-
-virtual void display_tf() const override
-{
-    TF_SISO::display();
 }
 
 /*==============================================*/

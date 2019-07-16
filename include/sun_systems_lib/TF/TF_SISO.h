@@ -251,6 +251,11 @@ virtual const unsigned int getSizeOutput() const override
     return 1;
 }
 
+virtual double getLastOutput() const
+{
+    return y_k_[0];
+}
+
 virtual void display() const override
 {
     display_tf();
