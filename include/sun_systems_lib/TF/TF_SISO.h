@@ -131,10 +131,10 @@ a_vec_( simplifyAndReduceDenominator(den_coeff) ),
 u_vec_( TooN::Zeros( b_vec_.size() ) ),
 y_vec_( TooN::Zeros( a_vec_.size() ) )
 {
-    if(getNumeratorOrder() > getDenominatorOrder())
-    {
-        throw std::domain_error("[TF_SISO] getNumDim() > getDenDim(). Non Causal System");
-    }
+    // if(getNumeratorOrder() > getDenominatorOrder())
+    // {
+    //     throw std::domain_error("[TF_SISO] getNumDim() > getDenDim(). Non Causal System");
+    // }
 }
 
 //TF_SISO_ZERO Constructor
