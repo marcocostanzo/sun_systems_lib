@@ -4,7 +4,7 @@
 
     Integrator transfer function using the trapez method
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -25,83 +25,100 @@
 #ifndef TF_INTEGRATOR_H
 #define TF_INTEGRATOR_H
 
+/*! \file TF_INTEGRATOR.h
+    \brief This class represents an integrator as Discrete Time Transfer Function System.
+*/
+
 #include "sun_systems_lib/TF/TF_SISO.h"
 
+namespace sun
+{
+//!  TF_INTEGRATOR class: represents an integrator as Discrete Time Transfer Function System.
+/*!
+    This class is an integrator as Discrete Time Transfer Function System.
+
+    It is discretized using the tustin method.
+
+    \sa Linear_System_Interface, TF_FIRST_ORDER_FILTER, TF_SISO, TF_MIMO
+*/
 class TF_INTEGRATOR : public TF_SISO
 {
 private:
-
-TF_INTEGRATOR(); //NO DEFAULT CONSTRUCTOR
+  TF_INTEGRATOR();  // NO DEFAULT CONSTRUCTOR
 
 protected:
-
-double gain_;
+  //! Integrator gain
+  double gain_;
 
 public:
-/*===============CONSTRUCTORS===================*/
-TF_INTEGRATOR(double Ts, double gain = 1.0)
-:TF_SISO( (Ts/2.0) * TooN::makeVector( 1.0 , 1.0 ),
-          TooN::makeVector(1.0, -1.0 ),
-          Ts
-        ),
-gain_(gain)
-{}
+  /*===============CONSTRUCTORS===================*/
 
-virtual ~TF_INTEGRATOR() override = default;
-    
-/*
-    Clone the object
-*/
-virtual TF_INTEGRATOR* clone() const override
-{
+  //! Constructor
+  /*!
+      \param Ts sampling time
+      \param gain gain of the integrator, default = 1
+  */
+  TF_INTEGRATOR(double Ts, double gain = 1.0)
+    : TF_SISO((Ts / 2.0) * TooN::makeVector(1.0, 1.0), TooN::makeVector(1.0, -1.0), Ts), gain_(gain)
+  {
+  }
+
+  //! Destructor
+  virtual ~TF_INTEGRATOR() override = default;
+
+  virtual TF_INTEGRATOR* clone() const override
+  {
     return new TF_INTEGRATOR(*this);
-}
+  }
 
-TF_INTEGRATOR( const TF_INTEGRATOR& tf ) = default;
-/*==============================================*/
+  //! Copy Constructor
+  TF_INTEGRATOR(const TF_INTEGRATOR& tf) = default;
+  /*==============================================*/
 
-/*=============GETTER===========================*/
-/*==============================================*/
+  /*=============GETTER===========================*/
+  /*==============================================*/
 
-/*=============SETTER===========================*/
-inline virtual void setTs(double Ts) override
-{
+  /*=============SETTER===========================*/
+  inline virtual void setTs(double Ts) override
+  {
     throw "[TF_INTEGRATOR::setTs] Cannot set Ts on TF_INTEGRATOR";
-}
+  }
 
-inline virtual void setOutput(double output)
-{
+  //! Change the state so that the output is "output"
+  /*!
+      \param output output after the state change
+  */
+  inline virtual void setOutput(double output)
+  {
     u_vec_[0] = 0.0;
     u_vec_[1] = 0.0;
     y_vec_[0] = output;
     y_k_[0] = output;
-}
-/*==============================================*/
+  }
+  /*==============================================*/
 
-/*=============RUNNER===========================*/
-inline virtual double apply( double uk) override
-{
-    return TF_SISO::apply( gain_*uk );
-}
-/*==============================================*/
+  /*=============RUNNER===========================*/
+  inline virtual double apply(double uk) override
+  {
+    return TF_SISO::apply(gain_ * uk);
+  }
+  /*==============================================*/
 
-/*=============VARIE===========================*/
+  /*=============VARIE===========================*/
 
-virtual void display() const override
-{
-    std::cout << 
-    "TF_INTEGRATOR:" << std::endl <<
-    "   Ts: " << ts_ << std::endl <<
-    "   gain: " << gain_ << std::endl;
-}
+  virtual void display_tf() const override
+  {
+    std::cout << "TF_INTEGRATOR:" << std::endl << "   Ts: " << ts_ << std::endl << "   gain: " << gain_ << std::endl;
+  }
 
-/*==============================================*/
-
+  /*==============================================*/
 };
 
 /*=============STATIC FUNS===========================*/
 /*==============================================*/
 
 using TF_INTEGRATOR_Ptr = std::unique_ptr<TF_INTEGRATOR>;
+
+}  // namespace sun
 
 #endif

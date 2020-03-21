@@ -1,7 +1,7 @@
 /*
     Continuous Time State Luenberger Observer System Class
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -22,125 +22,242 @@
 #ifndef CONTINUOUS_LUENBERGER_OBSERVER_H
 #define CONTINUOUS_LUENBERGER_OBSERVER_H
 
+/*! \file Continuous_Luenberger_Observer.h
+    \brief This class represents a continuous Luemberger Observer
+*/
+
 #include <sun_systems_lib/Continuous/Continuous_Observer_Interface.h>
 
+namespace sun
+{
+//!  Continuous_Luenberger_Observer class: represents a continuous Luemberger Observer.
+/*!
+    This class takes a Continuous State Space System (Continuous_System_Interface), and a gain Matrix L.
+
+    Then represents a continuous Luemberger observer in the form:
+
+    x_hat_dot = f(x_hat,u) + L*(y - h(x_hat,u))
+    
+    y_hat = h(x_hat,u)
+
+    Note: This is a Continuous system, in order to simulate it you have to discretize it.
+
+    NB. see Continuous_Observer_Interface to understand the relations between the Continuous_Observer_Interface and
+    Continuous_System_Interface classes. An observer is a continuous state space system, but the input is both the
+    observed system input and the observed system output, in order to use the observer as Continuous_System_Interface
+    you have to reorder the input as:
+
+    observer_input = [system_input; system_output]
+
+    In any case, you can just use the Continuous_Observer_Interface methods and forget that the observer is a state
+    space system: obs_state_fcn, obs_output_fcn ...
+
+    \sa Continuous_Observer_Interface, Continuous_System_Interface, Discretizator_Interface, RK4
+*/
 class Continuous_Luenberger_Observer : public Continuous_Observer_Interface
 {
-
 private:
-
 protected:
+  //!  Observed System.
+  Continuous_System_Interface_Ptr system_;
 
-Continuous_System_Interface_Ptr system_;
-TooN::Matrix<> L_;
+  //!  Gain Matrix.
+  TooN::Matrix<> L_;
 
 public:
-
-Continuous_Luenberger_Observer(const Continuous_System_Interface& system, const TooN::Matrix<> L )
-    :system_( system.clone() ),
-    L_(L)
+  //!  Full Constructor
+  /*!
+      Costructor that takes the observed system system and the gain Matrix L
+      \param system The observed System
+      \param L The observer gain Matrix
+  */
+  Continuous_Luenberger_Observer(const Continuous_System_Interface& system, const TooN::Matrix<>& L)
+    : system_(system.clone()), L_(L)
+  {
+    if (!chek_dimensions())
     {
-        if(!chek_dimensions())
-        {
-            throw std::invalid_argument( "[Continuous_Luenberger_Observer] Invalid matrix dimensions" );
-        }
+      throw std::invalid_argument("[Continuous_Luenberger_Observer] Invalid matrix dimensions");
     }
+  }
 
-Continuous_Luenberger_Observer(const Continuous_Luenberger_Observer& ss)
-:system_( ss.system_->clone() ),
-L_(ss.L_)
-{}
+  //! A copy constructor
+  Continuous_Luenberger_Observer(const Continuous_Luenberger_Observer& ss) : system_(ss.system_->clone()), L_(ss.L_)
+  {
+  }
 
-virtual Continuous_Luenberger_Observer* clone() const override
-{
+  //! Clone the object
+  virtual Continuous_Luenberger_Observer* clone() const override
+  {
     return new Continuous_Luenberger_Observer(*this);
-}
+  }
 
-virtual ~Continuous_Luenberger_Observer() override = default;
+  //! A destructor
+  virtual ~Continuous_Luenberger_Observer() override = default;
 
-inline virtual const TooN::Vector<> obs_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
-{
-    return system_->state_fcn(x_k_1,u_k) + L_ * ( y_k - system_->output_fcn(x_k_1,u_k) );
-}
+  //!  Observer State function x_hat_dot = f_obs(x_hat,u,y)
+  /*!
+      returns the estimated state derivative x_hat_dot as
 
-//inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
-//{
-//    const unsigned int real_input = getSizeRealInput();
-//    return obs_state_fcn(   x_k_1, 
-//                        u_k.slice(0, real_input ), 
-//                        u_k.slice(real_input, getSizeOutput()) 
-//                        );
-//}
+      x_hat_dot = f(x_hat,u) + L*(y - h(x_hat,u))
 
-inline virtual const TooN::Vector<> obs_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
-{
-    return system_->output_fcn( x_k, u_k );
-}
+      where f and h are the state and output function of the observed system respectively
+      \param x_hat The estimated state
+      \param u The observed system input
+      \param y The observed system measure
+      \return The estimated state derivative x_hat_dot
+  */
+  inline virtual const TooN::Vector<> obs_state_fcn(const TooN::Vector<>& x_hat, const TooN::Vector<>& u,
+                                                    const TooN::Vector<>& y) const override
+  {
+    return system_->state_fcn(x_hat, u) + L_ * (y - system_->output_fcn(x_hat, u));
+  }
 
-//inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
-//{
-//    const unsigned int size_real_input = getSizeRealInput();
-//    return obs_output_fcn(   x_k_1, 
-//                        u_k.slice(0, size_real_input), 
-//                        u_k.slice(size_real_input, getSizeOutput()) 
-//                        );
-//}
+  // inline virtual const TooN::Vector<> state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const
+  // override
+  //{
+  //    const unsigned int real_input = getSizeRealInput();
+  //    return obs_state_fcn(   x_k_1,
+  //                        u_k.slice(0, real_input ),
+  //                        u_k.slice(real_input, getSizeOutput())
+  //                        );
+  //}
 
-inline virtual const TooN::Matrix<> obs_jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k, const TooN::Vector<>& y_k ) const override
-{
-    return system_->jacob_state_fcn(x_k_1,u_k) - L_ * system_->jacob_output_fcn(x_k_1,u_k);
-}
+  //!  Observer Output function y_hat = h_obs(x_hat,u)
+  /*!
+      returns the estimated output as
 
-//inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const override
-//{
-//    return obs_jacob_state_fcn( x_k_1, 
-//                            u_k.slice(0,system_->getSizeInput()), 
-//                            u_k.slice(system_->getSizeInput(),system_->getSizeOutput()) 
-//                            );
-//}
+      y_hat = h(x_hat,u)
 
-inline virtual const TooN::Matrix<> obs_jacob_output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const override
-{
-    return system_->jacob_output_fcn( x_k, u_k );
-}
+      where h is the output function of the observed system
+      \param x_hat The estimated state
+      \param u The observed system input
+      \return The estimated output y_hat
+  */
+  inline virtual const TooN::Vector<> obs_output_fcn(const TooN::Vector<>& x_hat,
+                                                     const TooN::Vector<>& u) const override
+  {
+    return system_->output_fcn(x_hat, u);
+  }
 
-inline virtual const unsigned int getSizeRealInput() const
-{
+  // inline virtual const TooN::Vector<> output_fcn( const TooN::Vector<>& x_k, const TooN::Vector<>& u_k ) const
+  // override
+  //{
+  //    const unsigned int size_real_input = getSizeRealInput();
+  //    return obs_output_fcn(   x_k_1,
+  //                        u_k.slice(0, size_real_input),
+  //                        u_k.slice(size_real_input, getSizeOutput())
+  //                        );
+  //}
+
+  //!  Observer state function Jacobian F_obs = jac_state_obs(x_hat,u,y)
+  /*!
+      returns the state function Jacobian of the observer F_obs as
+
+      F_obs = jac_state(x_hat,u) - L*jac_output(x_hat,u)
+
+      where jac_state and jac_output are the state and output function jacobians of the observed system respectively
+      \param x_hat The estimated state
+      \param u The observed system input
+      \param y The observed system measure
+      \return The Observer state function Jacobian F_obs
+  */
+  inline virtual const TooN::Matrix<> obs_jacob_state_fcn(const TooN::Vector<>& x_hat, const TooN::Vector<>& u,
+                                                          const TooN::Vector<>& y) const override
+  {
+    return system_->jacob_state_fcn(x_hat, u) - L_ * system_->jacob_output_fcn(x_hat, u);
+  }
+
+  // inline virtual const TooN::Matrix<> jacob_state_fcn( const TooN::Vector<>& x_k_1, const TooN::Vector<>& u_k ) const
+  // override
+  //{
+  //    return obs_jacob_state_fcn( x_k_1,
+  //                            u_k.slice(0,system_->getSizeInput()),
+  //                            u_k.slice(system_->getSizeInput(),system_->getSizeOutput())
+  //                            );
+  //}
+
+  //!  Observer Output function Jacobian H_obs = jac_output_obs(x_hat,u)
+  /*!
+      returns the output function Jacobian of the observer H_obs as
+
+      H_obs = jac_output(x_hat,u)
+
+      where jac_output is the output function jacobian of the observed system
+      Note: observer output function jacobian is the same as the observed system output function jacobian
+      \param x_hat The estimated state
+      \param u The observed system input
+      \return The Observer output function Jacobian H_obs
+  */
+  inline virtual const TooN::Matrix<> obs_jacob_output_fcn(const TooN::Vector<>& x_hat,
+                                                           const TooN::Vector<>& u) const override
+  {
+    return system_->jacob_output_fcn(x_hat, u);
+  }
+
+  //! The size of the real input u
+  /*!
+      \return the size of the observed system input
+  */
+  inline virtual const unsigned int getSizeRealInput() const override
+  {
     return system_->getSizeInput();
-}
+  }
 
-inline virtual const unsigned int getSizeInput() const override
-{
+  //! The input size of the equivalent state space system
+  /*!
+      The observer is also a state space system.
+      The input of the equivalent state space system is organized as [ observed_system_input; observed_system_output ].
+      The function returns the size of this equivalent input
+  */
+  inline virtual const unsigned int getSizeInput() const override
+  {
     return system_->getSizeInput() + system_->getSizeOutput();
-}
+  }
 
-inline virtual const unsigned int getSizeOutput() const override
-{
+  //! The output size of the observer
+  /*!
+      It is the same of the observed system output size
+  */
+  inline virtual const unsigned int getSizeOutput() const override
+  {
     return system_->getSizeOutput();
-}
+  }
 
-inline virtual const unsigned int getSizeState() const
-{
+  //! The state size of the observer
+  /*!
+      It is the same of the observed system state size
+  */
+  inline virtual const unsigned int getSizeState() const
+  {
     return system_->getSizeState();
-}
+  }
 
-virtual void display() const
-{
+  //! Display the observer
+  /*!
+      Display the observer on the standard output
+  */
+  virtual void display() const
+  {
     std::cout << BOLDYELLOW "WARNING! display() not implemented for Continuous_Luenberger_Observer" CRESET << std::endl;
-}
+  }
 
-virtual bool chek_dimensions() const
-{
-    if(L_.num_rows() != system_->getSizeState())
-        return false;
-    if(L_.num_cols() != system_->getSizeOutput())
-        return false;
+  //! [Internal function]
+  /*!
+      Check the dimension of the gain matrix
+  */
+  virtual bool chek_dimensions() const
+  {
+    if (L_.num_rows() != system_->getSizeState())
+      return false;
+    if (L_.num_cols() != system_->getSizeOutput())
+      return false;
 
     return true;
-}
-
+  }
 };
 
 using Continuous_Luenberger_Observer_Ptr = std::unique_ptr<Continuous_Luenberger_Observer>;
+
+}  // namespace sun
 
 #endif
