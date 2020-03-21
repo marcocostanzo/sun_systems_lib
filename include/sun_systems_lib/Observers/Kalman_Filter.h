@@ -107,7 +107,7 @@ public:
     , system_(system.clone())
     , W_(W)
     , V_(V)
-    , P_(W_)
+    , P_(W)
     , Identity_x_(TooN::Identity(system.getSizeState()))
   {
   }
