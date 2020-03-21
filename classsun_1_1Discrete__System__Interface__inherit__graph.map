@@ -1,0 +1,17 @@
+<map id="sun::Discrete_System_Interface" name="sun::Discrete_System_Interface">
+<area shape="rect" id="node2" href="$classsun_1_1SISO__System__Interface.html" title="SISO_System_Interface class: represents a generic Discrete Time SISO system. " alt="" coords="205,102,399,129"/>
+<area shape="rect" id="node6" href="$classsun_1_1SS__Interface.html" title="SS_Interface class: represents a generic Discrete Time State Space System. " alt="" coords="239,211,365,238"/>
+<area shape="rect" id="node15" href="$classsun_1_1TF__MIMO.html" title="TF_MIMO class: represents a Discrete Time MIMO Transfer Function System. " alt="" coords="247,287,357,314"/>
+<area shape="rect" id="node3" href="$classsun_1_1TF__SISO.html" title="TF_SISO class: represents a generic Discrete Time Transfer Function System. " alt="" coords="487,69,593,95"/>
+<area shape="rect" id="node4" href="$classsun_1_1TF__FIRST__ORDER__FILTER.html" title="TF_FIRST_ORDER_FILTER class: represents a first order filter as Discrete Time Transfer Function Syste..." alt="" coords="695,5,864,47"/>
+<area shape="rect" id="node5" href="$classsun_1_1TF__INTEGRATOR.html" title="TF_INTEGRATOR class: represents an integrator as Discrete Time Transfer Function System. " alt="" coords="698,71,861,98"/>
+<area shape="rect" id="node7" href="$classsun_1_1Discretizator__Interface.html" title="Discretizator_Interface class: interface for a generic Discretizzator. " alt="" coords="477,120,603,161"/>
+<area shape="rect" id="node9" href="$classsun_1_1Observer__Interface.html" title="Observer_Interface class: represents a generic Discrete Observer. " alt="" coords="459,186,621,213"/>
+<area shape="rect" id="node13" href="$classsun_1_1SS.html" title="SS class: implements a generic Discrete Time State Space System. " alt="" coords="505,237,575,263"/>
+<area shape="rect" id="node14" href="$classsun_1_1SS__LINEAR.html" title="SS_LINEAR class: represents a Linear State Space System. " alt="" coords="477,287,603,314"/>
+<area shape="rect" id="node8" href="$classsun_1_1RK4.html" title="RK4 class: Runge&#45;Kutta 4 Discratizator. " alt="" coords="741,126,818,153"/>
+<area shape="rect" id="node10" href="$classsun_1_1Kalman__Filter.html" title="Kalman_Filter class: Implementation of Observer_Interface. " alt="" coords="714,177,845,203"/>
+<area shape="rect" id="node11" href="$classsun_1_1Luenberger__Observer.html" title="Luenberger_Observer class: Implementation of Observer_Interface. " alt="" coords="692,227,867,254"/>
+<area shape="rect" id="node12" href="$classsun_1_1Observer__SS__Incapsuler.html" title="sun::Observer_SS_Incapsuler" alt="" coords="681,278,877,305"/>
+<area shape="rect" id="node16" href="$classsun_1_1TF__MIMO__DIAGONAL.html" title="TF_MIMO_DIAGONAL class: represents a Diagonal Discrete Time MIMO Transfer Function System..." alt="" coords="447,338,633,365"/>
+</map>

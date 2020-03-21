@@ -1,0 +1,5 @@
+<map id="sun::Observer_SS_Incapsuler" name="sun::Observer_SS_Incapsuler">
+<area shape="rect" id="node2" href="$classsun_1_1Observer__Interface.html" title="Observer_Interface class: represents a generic Discrete Observer. " alt="" coords="22,169,185,196"/>
+<area shape="rect" id="node3" href="$classsun_1_1SS__Interface.html" title="SS_Interface class: represents a generic Discrete Time State Space System. " alt="" coords="40,95,167,121"/>
+<area shape="rect" id="node4" href="$classsun_1_1Discrete__System__Interface.html" title="Discrete_System_Interface class: represents a generic discrete time system. " alt="" coords="27,5,179,47"/>
+</map>

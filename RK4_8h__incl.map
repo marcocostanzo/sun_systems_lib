@@ -1,0 +1,6 @@
+<map id="sun_systems_lib/include/sun_systems_lib/Discretization/RK4.h" name="sun_systems_lib/include/sun_systems_lib/Discretization/RK4.h">
+<area shape="rect" id="node2" href="$Continuous__System__Interface_8h.html" title="This class represents a generic continuous state space System. " alt="" coords="5,273,219,315"/>
+<area shape="rect" id="node5" href="$Discretizator__Interface_8h.html" title="This class is an interface for a generic Discretizzator. " alt="" coords="207,95,411,136"/>
+<area shape="rect" id="node6" href="$SS__Interface_8h.html" title="This class represents a generic Discrete Time State Space System. " alt="" coords="247,184,390,225"/>
+<area shape="rect" id="node7" href="$Discrete__System__Interface_8h.html" title="This class represents a generic discrete System. " alt="" coords="243,273,416,315"/>
+</map>

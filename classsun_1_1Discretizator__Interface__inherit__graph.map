@@ -1,0 +1,5 @@
+<map id="sun::Discretizator_Interface" name="sun::Discretizator_Interface">
+<area shape="rect" id="node4" href="$classsun_1_1RK4.html" title="RK4 class: Runge&#45;Kutta 4 Discratizator. " alt="" coords="43,259,120,285"/>
+<area shape="rect" id="node2" href="$classsun_1_1SS__Interface.html" title="SS_Interface class: represents a generic Discrete Time State Space System. " alt="" coords="18,95,145,121"/>
+<area shape="rect" id="node3" href="$classsun_1_1Discrete__System__Interface.html" title="Discrete_System_Interface class: represents a generic discrete time system. " alt="" coords="5,5,157,47"/>
+</map>

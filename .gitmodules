@@ -1,0 +1,3 @@
+[submodule "sun_systems_lib"]
+	path = sun_systems_lib
+	url = https://github.com/marcocostanzo/sun_systems_lib.git

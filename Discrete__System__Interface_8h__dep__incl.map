@@ -1,0 +1,17 @@
+<map id="sun_systems_lib/include/sun_systems_lib/Discrete_System_Interface.h" name="sun_systems_lib/include/sun_systems_lib/Discrete_System_Interface.h">
+<area shape="rect" id="node2" href="$SISO__System__Interface_8h.html" title="This class represents a generic Discrete Time SISO System. " alt="" coords="287,109,453,165"/>
+<area shape="rect" id="node6" href="$TF__MIMO_8h.html" title="This class represents a Discrete Time MIMO Transfer Function System. " alt="" coords="407,317,573,373"/>
+<area shape="rect" id="node8" href="$SS__Interface_8h.html" title="This class represents a generic Discrete Time State Space System. " alt="" coords="881,109,1049,165"/>
+<area shape="rect" id="node3" href="$TF__SISO_8h.html" title="This class represents a generic Discrete Time Transfer Function System. " alt="" coords="253,213,418,269"/>
+<area shape="rect" id="node4" href="$TF__FIRST__ORDER__FILTER_8h.html" title="This class represents a first order filter as Discrete Time Transfer Function System. " alt="" coords="5,317,193,373"/>
+<area shape="rect" id="node5" href="$TF__INTEGRATOR_8h.html" title="This class represents an integrator as Discrete Time Transfer Function System. " alt="" coords="218,317,383,373"/>
+<area shape="rect" id="node7" href="$TF__MIMO__DIAGONAL_8h.html" title="This class represents a Diagonal Discrete Time MIMO Transfer Function System. " alt="" coords="407,421,573,477"/>
+<area shape="rect" id="node9" href="$Discretizator__Interface_8h.html" title="This class is an interface for a generic Discretizzator. " alt="" coords="627,213,835,269"/>
+<area shape="rect" id="node11" href="$Observer__Interface_8h.html" title="This interface represents a generic Discrete Observer. " alt="" coords="871,213,1059,269"/>
+<area shape="rect" id="node15" href="$SS_8h.html" title="This class implements a generic Discrete Time State Space System. " alt="" coords="1083,221,1262,262"/>
+<area shape="rect" id="node16" href="$SS__LINEAR_8h.html" title="This class represents a Linear State Space System. " alt="" coords="1286,213,1454,269"/>
+<area shape="rect" id="node10" href="$RK4_8h.html" title="Runge&#45;Kutta 4 Discratizator. " alt="" coords="597,325,847,366"/>
+<area shape="rect" id="node12" href="$Kalman__Filter_8h.html" title="sun_systems_lib/include\l/sun_systems_lib/Observers\l/Kalman_Filter.h" alt="" coords="871,317,1059,373"/>
+<area shape="rect" id="node13" href="$Luenberger__Observer_8h.html" title="Implementation of a Luenberger Observer. " alt="" coords="1083,317,1271,373"/>
+<area shape="rect" id="node14" href="$Observer__SS__Incapsuler_8h.html" title="sun_systems_lib/include\l/sun_systems_lib/Observers\l/Observer_SS_Incapsuler.h" alt="" coords="1295,317,1483,373"/>
+</map>
